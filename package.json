@@ -2,7 +2,8 @@
   "name": "zephyrjs",
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "build:dev": "turbo run build"
   },
   "devDependencies": {
     "turbo": "^1.6.3",

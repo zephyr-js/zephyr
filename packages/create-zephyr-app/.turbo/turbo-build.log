@@ -1,0 +1,9 @@
+
+> create-zephyr-app@0.1.0 build /Users/kakeng/dev/projects/zephyrjs/packages/create-zephyr-app
+> ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register
+
+ncc: Version 0.34.0
+ncc: Compiling file index.js into CJS
+ncc: Using typescript@4.8.4 (local user-provided)
+390kB  dist/index.js
+390kB  [2560ms] - ncc 0.34.0

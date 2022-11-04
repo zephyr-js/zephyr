@@ -3,6 +3,6 @@
   "eslint.workingDirectories": [
     "packages/core",
     "packages/common",
-    "packages/express-adapter"
+    "packages/create-zephyr-app"
   ]
 }

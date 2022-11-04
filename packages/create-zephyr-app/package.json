@@ -1,0 +1,40 @@
+{
+  "name": "create-zephyr-app",
+  "version": "0.1.0",
+  "keywords": [
+    "node",
+    "express",
+    "zephyr",
+    "zephyr.js"
+  ],
+  "description": "Create Zephyr.js powered Express apps with one command",
+  "license": "MIT",
+  "bin": {
+    "create-zephyr-app": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build:dev": "ncc build src/index.ts -w -o dist",
+    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.34.0",
+    "@types/node": "^18.11.9",
+    "tsconfig": "workspace:*",
+    "eslint-config-custom": "workspace:*",
+    "cpy": "^9.0.1",
+    "chalk": "^5.1.2",
+    "cross-spawn": "^7.0.3",
+    "@types/cross-spawn": "^6.0.2",
+    "rimraf": "^3.0.2",
+    "@types/rimraf": "^3.0.2",
+    "validate-npm-package-name": "^5.0.0",
+    "@types/validate-npm-package-name": "^4.0.0",
+    "commander": "^9.4.1",
+    "prompts": "^2.4.2",
+    "update-check": "^1.5.4",
+    "@types/prompts": "^2.4.1"
+  }
+}
