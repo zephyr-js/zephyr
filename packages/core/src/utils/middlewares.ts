@@ -9,8 +9,9 @@ export const createHandlerMiddleware = <T extends ZodTypeAny>(
     try {
       await handler(req, res);
     } catch (err) {
-      next(err);
+      return next(err);
     }
+    return next();
   };
 };
 

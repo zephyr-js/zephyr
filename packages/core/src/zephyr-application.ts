@@ -6,6 +6,7 @@ import { createHandlerMiddleware, createValidationMiddleware } from './utils/mid
 
 type ExpressApplication = ReturnType<typeof express>;
 
+
 export class ZephyrApplication {
   private app: ExpressApplication;
   private server: Server;
@@ -28,9 +29,10 @@ export class ZephyrApplication {
 
   public async loadRoutes() {
     const routes = loadRoutes();
-    
+
     for (const route of routes) {
-      const { method, path, handler, schema } = route;
+      const { path, handler, schema } = route;
+      const method = route.method as ExpressRequestMethod;
 
       const middlewares: RequestHandler[] = [];
 
@@ -40,11 +42,11 @@ export class ZephyrApplication {
 
       middlewares.push(createHandlerMiddleware(handler));
 
-      this.app[method.toLowerCase() as ExpressRequestMethod](path, ...middlewares);
+      this.app[method](path, ...middlewares);
     }
   }
 
-  public listen(port: number) {
-    this.server.listen(port);
+  public listen(port: number, callback: () => void) {
+    this.server.listen(port, callback);
   }
 }
