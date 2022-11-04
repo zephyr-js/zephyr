@@ -1,0 +1,12 @@
+{
+  "name": "@zephyrjs/core",
+  "version": "0.1.0",
+  "dependencies": {
+    "@zephyrjs/common": "workspace:*"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "eslint-config-custom": "workspace:*",
+    "@types/node": "^18.11.9"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "zephyrjs",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "^1.6.3",
+    "prettier": "^2.7.1"
+  }
+}

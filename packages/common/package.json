@@ -1,0 +1,14 @@
+{
+  "name": "@zephyrjs/common",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "typescript": "^4.8.4",
+    "@types/node": "^18.11.9",
+    "zod": "^3.19.1"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "eslint.enable": true,
+  "eslint.workingDirectories": [
+    "packages/core",
+    "packages/common",
+    "packages/express-adapter"
+  ]
+}
