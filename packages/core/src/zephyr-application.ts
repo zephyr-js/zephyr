@@ -1,24 +1,47 @@
-import { HttpAdapter } from '@zephyrjs/common';
-import { Server } from 'http';
-import { loadAdapter } from './utils/adapter-loader';
+import { Server, createServer } from 'http';
+import express, { RequestHandler } from 'express';
+import { loadRoutes } from './utils/routes-loader';
+import { ExpressRequestMethod } from '@zephyrjs/common';
+import { createHandlerMiddleware, createValidationMiddleware } from './utils/middlewares';
+
+type ExpressApplication = ReturnType<typeof express>;
 
 export class ZephyrApplication {
-  private adapter: HttpAdapter;
+  private app: ExpressApplication;
   private server: Server;
 
   constructor() {
-    this.adapter = this.createAdapter();
-    this.server = this.createServer();
+    this.app = this.createApp();
+    this.server = this.createServer(this.app);
   }
 
-  private createAdapter() {
-    return loadAdapter('@zephyrjs/express-adapter');
+  private createApp() {
+    const app = express();
+    return app;
   }
 
-  private createServer() {
-    const server = this.adapter.gerServer();
+  private createServer(app: ExpressApplication) {
+    const server = createServer(app);
     // TODO: Listen and react to server events
     return server;
+  }
+
+  public async loadRoutes() {
+    const routes = loadRoutes();
+    
+    for (const route of routes) {
+      const { method, path, handler, schema } = route;
+
+      const middlewares: RequestHandler[] = [];
+
+      if (schema) {
+        middlewares.push(createValidationMiddleware(schema));
+      }
+
+      middlewares.push(createHandlerMiddleware(handler));
+
+      this.app[method.toLowerCase() as ExpressRequestMethod](path, ...middlewares);
+    }
   }
 
   public listen(port: number) {

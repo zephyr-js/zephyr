@@ -1,4 +1,7 @@
+import { Request as ExpressRequest } from "express";
+
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type ExpressRequestMethod = 'get' | 'post' | 'put' | 'delete';
 
 export interface ZephyrBaseRequest {
   params?: object;
@@ -6,12 +9,4 @@ export interface ZephyrBaseRequest {
   body?: object;
 }
 
-export interface ZephyrRequest<T extends ZephyrBaseRequest = any> {
-  method: string;
-  url: string;
-  path: string;
-  headers: Record<string, unknown>;
-  params: T['params'];
-  query: T['query'];
-  body: T['body'];
-}
+export type ZephyrRequest<T extends ZephyrBaseRequest = any> = ExpressRequest<T['params'], T['body'], T['query']>;

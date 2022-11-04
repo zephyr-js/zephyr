@@ -8,7 +8,7 @@ export type ValidAdapter =
 
 export abstract class HttpAdapter<TApp = any, TFunction = Function> {
   constructor(
-    protected readonly instance: TApp,
+    protected readonly app: TApp,
     protected readonly server: Server,
   ) {}
 

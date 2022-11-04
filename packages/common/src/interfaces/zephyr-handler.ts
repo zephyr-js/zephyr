@@ -1,4 +1,4 @@
-import { z, ZodTypeAny } from 'zod';
+import type { z, ZodTypeAny } from 'zod';
 import { ZephyrBaseRequest, ZephyrRequest } from './zephyr-request';
 import { ZephyrResponse } from './zephyr-response';
 
