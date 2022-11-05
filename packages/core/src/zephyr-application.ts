@@ -1,7 +1,6 @@
 import { Server, createServer } from 'http';
 import express, { RequestHandler } from 'express';
 import { loadRoutes } from './utils/routes-loader';
-import { ExpressRequestMethod } from '@zephyr-js/common';
 import {
   createHandlerMiddleware,
   createValidationMiddleware,
@@ -33,11 +32,9 @@ export class ZephyrApplication {
   public loadRoutes() {
     const routes = loadRoutes();
 
-    console.log(routes);
-
     for (const route of routes) {
       const { path, handler, schema } = route;
-      const method = route.method.toLowerCase() as ExpressRequestMethod;
+      const method = route.method.toLowerCase() as keyof ExpressApplication;
 
       const middlewares: RequestHandler[] = [];
 
