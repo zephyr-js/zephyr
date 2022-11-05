@@ -1,14 +1,26 @@
 {
   "name": "create-zephyr-app",
   "version": "0.1.0",
+  "description": "Create Zephyr.js powered Node.js apps with one command",
+  "author": {
+    "name": "KaKeng Loh",
+    "email": "kakengloh@gmail.com"
+  },
+  "homepage": "https://github.com/zephyr-js/zephyr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zephyr-js/zephyr"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
   "keywords": [
     "node",
     "express",
     "zephyr",
     "zephyr.js"
   ],
-  "description": "Create Zephyr.js powered Express apps with one command",
-  "license": "MIT",
   "bin": {
     "create-zephyr-app": "dist/index.js"
   },
