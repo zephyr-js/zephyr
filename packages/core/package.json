@@ -37,8 +37,7 @@
   },
   "peerDependencies": {
     "@zephyr-js/common": "workspace:*",
-    "zod": "^3.19.1",
-    "express": "^4.18.2"
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "tsconfig": "workspace:*",
