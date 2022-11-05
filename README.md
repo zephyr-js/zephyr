@@ -41,6 +41,64 @@ yarn create zephyr-app <app-name>
 npx create-zephyr-app <app-name>
 ``` -->
 
+## A small taste
+
+All files under `src/api` will be automatically mapped to API endpoints with their respective paths
+
+### Basic
+```typescript
+// src/api/get.ts
+// This file will be mapped to "GET /" endpoint
+
+import { ZephyrHandler } from '@zephyr-js/common';
+
+// Endpoint handler
+export const handler: ZephyrHandler = async (req, res) => {
+  return res.json({ message: 'Hello world!' });
+};
+```
+
+### Type safety and validation
+
+```typescript
+// src/api/items/post.ts
+// This file will be mapped to "POST /items" endpoint
+
+import { z } from 'zod';
+import { ZephyrHandlerWithSchema } from '@zephyr-js/common';
+
+// Model schema
+const ItemSchema = z.object({
+  name: z.string(),
+  price: z.number(),
+});
+
+// Model type
+type Item = z.infer<typeof ItemSchema>;
+
+// Endpoint schema, auto validated with Zod
+// Supports `params`, `body`, `query` and `response`
+export const schema = z.object({
+  // Request body
+  body: ItemSchema,
+  // Response body
+  response: z.object({
+    item: ItemSchema,
+  }),
+});
+
+// Endpoint handler
+// Request and response type are inferred from the schema above
+export const handler: ZephyrHandlerWithSchema<typeof schema> = async (
+  req,
+  res,
+) => {
+  const item: Item = req.body; // Type checked
+  return res.json({ item }); // Type checked
+};
+
+```
+
 ## TODO
 - [ ] Supports middleware
 - [ ] Complete `create-zephyr-app`
