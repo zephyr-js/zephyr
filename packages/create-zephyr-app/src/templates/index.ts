@@ -40,8 +40,7 @@ export const installTemplate = async ({
   /**
    * Default dependencies.
    */
-  // const dependencies = ['@zephyr-js/core'];
-  const dependencies: string[] = [];
+  const dependencies = ['@zephyr-js/core', '@zephyr-js/common', 'zod'];
   const devDependencies = [
     'typescript',
     '@types/node',
