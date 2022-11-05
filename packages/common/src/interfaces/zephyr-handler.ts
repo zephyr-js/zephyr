@@ -8,7 +8,7 @@ export type ZephyrHandler<
 > = (
   req: ZephyrRequest<TRequest>,
   res: ZephyrResponse<TResponse>,
-) => Promise<void>;
+) => Promise<any>;
 
 export type ZephyrHandlerWithSchema<TSchema extends ZodTypeAny = any> = (
   req: ZephyrRequest<Omit<z.infer<TSchema>, 'response'>>,

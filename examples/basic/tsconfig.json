@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "CommonJS",
+    "lib": [
+      "ESNext"
+    ],
+    "esModuleInterop": true,
+    "incremental": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "noImplicitThis": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "skipLibCheck": true,
+    "pretty": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    }
+  }
+}

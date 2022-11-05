@@ -40,7 +40,8 @@ export const installTemplate = async ({
   /**
    * Default dependencies.
    */
-  const dependencies = ['@zephyr/core'];
+  // const dependencies = ['@zephyr/core'];
+  const dependencies: string[] = [];
   const devDependencies = [
     'typescript',
     '@types/node',
@@ -67,7 +68,7 @@ export const installTemplate = async ({
   }
   if (devDependencies.length) {
     console.log();
-    console.log('Installing dependencies:');
+    console.log('Installing dev dependencies:');
     for (const devDependency of devDependencies) {
       console.log(`- ${devDependency}`);
     }

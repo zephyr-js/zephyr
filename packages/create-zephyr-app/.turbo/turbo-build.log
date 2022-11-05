@@ -6,4 +6,4 @@ ncc: Version 0.34.0
 ncc: Compiling file index.js into CJS
 ncc: Using typescript@4.8.4 (local user-provided)
 496kB  dist/index.js
-496kB  [2550ms] - ncc 0.34.0
+496kB  [2427ms] - ncc 0.34.0

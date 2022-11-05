@@ -16,6 +16,7 @@ export class ZephyrApplication {
   constructor() {
     this.app = this.createApp();
     this.server = this.createServer(this.app);
+    this.loadRoutes();
   }
 
   private createApp() {
@@ -29,12 +30,14 @@ export class ZephyrApplication {
     return server;
   }
 
-  public async loadRoutes() {
+  public loadRoutes() {
     const routes = loadRoutes();
+
+    console.log(routes);
 
     for (const route of routes) {
       const { path, handler, schema } = route;
-      const method = route.method as ExpressRequestMethod;
+      const method = route.method.toLowerCase() as ExpressRequestMethod;
 
       const middlewares: RequestHandler[] = [];
 

@@ -1,4 +1,4 @@
 
-> @zephyrjs/common@ build /Users/kakeng/dev/projects/zephyrjs/packages/common
+> @zephyr/common@ build /Users/kakeng/dev/projects/zephyrjs/packages/common
 > tsc -b
 
