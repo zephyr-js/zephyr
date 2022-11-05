@@ -1,22 +1,21 @@
-import { Server, createServer, ServerResponse, IncomingMessage } from 'http';
 import express, { RequestHandler } from 'express';
 import { loadRoutes } from './utils/routes-loader';
 import {
+  createErrorMiddleware,
   createHandlerMiddleware,
   createValidationMiddleware,
 } from './utils/middlewares';
 
 type ExpressApplication = ReturnType<typeof express>;
-type HttpServer = Server<typeof IncomingMessage, typeof ServerResponse>;
 
-export type ZephyrApplication = Pick<HttpServer, 'listen' | 'on' | 'emit'>;
+export type ZephyrApplication = {
+  listen: (port: number, callback?: () => void) => void;
+};
 
 export const zephyr = (): ZephyrApplication => {
   // Create express app
   const app = express();
-
-  // Create HTTP server
-  const server = createServer(app);
+  app.use(express.json());
 
   // Load routes from src/api
   const routes = loadRoutes();
@@ -40,9 +39,17 @@ export const zephyr = (): ZephyrApplication => {
     app[method](path, ...middlewares);
   }
 
+  // Create error middleware
+  app.use('/', createErrorMiddleware());
+
+  const listen: ZephyrApplication['listen'] = (
+    port: number,
+    callback?: () => void,
+  ) => {
+    app.listen(port, callback);
+  };
+
   return {
-    listen: server.listen,
-    on: server.on,
-    emit: server.emit,
+    listen,
   };
 };

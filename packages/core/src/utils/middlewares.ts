@@ -1,9 +1,14 @@
-import { ZephyrBaseRequest, ZephyrHandlerWithSchema, ZephyrRequest, ZephyrResponse } from '@/../../common/dist';
+import {
+  ZephyrBaseRequest,
+  ZephyrHandlerAny,
+  ZephyrRequest,
+  ZephyrResponse,
+} from '@zephyr-js/common';
 import { ErrorRequestHandler, RequestHandler } from 'express';
-import { AnyZodObject, ZodError, ZodTypeAny } from 'zod';
+import { AnyZodObject, ZodError } from 'zod';
 
-export const createHandlerMiddleware = <T extends ZodTypeAny>(
-  handler: ZephyrHandlerWithSchema<T>,
+export const createHandlerMiddleware = (
+  handler: ZephyrHandlerAny,
 ): RequestHandler => {
   return async (req, res, next) => {
     try {
@@ -18,24 +23,46 @@ export const createHandlerMiddleware = <T extends ZodTypeAny>(
 export const createValidationMiddleware = (
   schema: AnyZodObject,
 ): RequestHandler => {
-  return (req, res) => {
+  return (req, _, next) => {
     try {
-      schema.parse(req);
+      schema.omit({ response: true }).parse(req);
     } catch (err) {
-      if (err instanceof ZodError) {
-        const { errors } = err;
-        return res.status(400).json({ errors });
-      }
+      return next(err);
     }
+    return next();
   };
 };
 
-export const createErrorMiddleware = <
+export type ErrorFunction<
+  TError = unknown,
   TRequest extends ZephyrBaseRequest = any,
-  TResponse = any
->(fn: (req: ZephyrRequest<TRequest>, res: ZephyrResponse<TResponse>, err: unknown) => any): ErrorRequestHandler => {
+  TResponse = any,
+> = (
+  err: TError,
+  req: ZephyrRequest<TRequest>,
+  res: ZephyrResponse<TResponse>,
+) => any;
+
+const isZodError = (err: unknown): err is ZodError => {
+  return err instanceof Error && err.name === 'ZodError';
+};
+
+export const createErrorMiddleware = (
+  fn?: ErrorFunction,
+): ErrorRequestHandler => {
   return (err, req, res, next) => {
-    fn(req, res, err);
-    return next();
+    console.error(err);
+
+    if (fn) {
+      fn(err, req, res);
+      return next();
+    }
+
+    if (isZodError(err)) {
+      const { errors } = err;
+      return res.status(400).json({ errors });
+    }
+
+    return res.status(500).send('Internal server error');
   };
 };

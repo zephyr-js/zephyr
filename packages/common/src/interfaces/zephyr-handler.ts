@@ -1,4 +1,4 @@
-import type { z, ZodTypeAny } from 'zod';
+import type { AnyZodObject, z } from 'zod';
 import { ZephyrBaseRequest, ZephyrRequest } from './zephyr-request';
 import { ZephyrResponse } from './zephyr-response';
 
@@ -8,11 +8,14 @@ export type ZephyrHandler<
 > = (
   req: ZephyrRequest<TRequest>,
   res: ZephyrResponse<TResponse>,
-) => Promise<any>;
+) => any | Promise<any>;
 
-export type ZephyrHandlerWithSchema<TSchema extends ZodTypeAny = any> = (
-  req: ZephyrRequest<Omit<z.infer<TSchema>, 'response'>>,
+export type ZephyrHandlerWithSchema<TSchema extends AnyZodObject = any> = (
+  req: ZephyrRequest<
+    Omit<z.infer<TSchema>, 'response'>,
+    z.infer<TSchema>['response']
+  >,
   res: ZephyrResponse<z.infer<TSchema>['response']>,
-) => Promise<z.infer<TSchema>['response']>;
+) => any | Promise<any>;
 
 export type ZephyrHandlerAny = ZephyrHandler | ZephyrHandlerWithSchema;

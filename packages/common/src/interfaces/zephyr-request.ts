@@ -8,8 +8,7 @@ export interface ZephyrBaseRequest {
   body?: object;
 }
 
-export type ZephyrRequest<T extends ZephyrBaseRequest = any> = ExpressRequest<
-  T['params'],
-  T['body'],
-  T['query']
->;
+export type ZephyrRequest<
+  T extends ZephyrBaseRequest = any,
+  TResponse = any,
+> = ExpressRequest<T['params'], TResponse, T['body'], T['query']>;
