@@ -1,6 +1,6 @@
 {
   "name": "create-zephyr-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create Zephyr.js powered Node.js apps with one command",
   "author": {
     "name": "KaKeng Loh",
@@ -30,8 +30,8 @@
   ],
   "scripts": {
     "lint": "eslint --fix src",
-    "dev": "ncc build src/index.ts -w -o dist & cp -R src/templates dist",
-    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register & cp -R src/templates dist"
+    "dev": "ncc build src/index.ts -w -o dist && cp -R src/templates dist/templates",
+    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register && cp -R src/templates dist/templates"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.34.0",
