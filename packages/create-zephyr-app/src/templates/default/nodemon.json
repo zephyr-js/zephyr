@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": "ts",
+  "ignore": [
+    "node_modules",
+    "dist"
+  ],
+  "exec": "node -r @swc-node/register -r tsconfig-paths/register src"
+}

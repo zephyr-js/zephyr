@@ -29,7 +29,10 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "glob": "^8.0.3"
+    "glob": "^8.0.3",
+    "@zephyr-js/common": "workspace:*",
+    "zod": "^3.19.1",
+    "express": "^4.18.2"
   },
   "peerDependencies": {
     "@zephyr-js/common": "workspace:*",

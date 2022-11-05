@@ -23,10 +23,10 @@ export const installTemplate = async ({
     version: '0.1.0',
     private: true,
     scripts: {
-      dev: 'zephyr dev',
-      build: 'zephyr build',
-      start: 'zephyr start',
-      lint: 'zephyr lint',
+      dev: 'nodemon',
+      build: 'tsc -b',
+      start: 'node dist',
+      lint: 'eslint --fix src',
     },
   };
   /**
@@ -52,6 +52,10 @@ export const installTemplate = async ({
     'eslint-plugin-import',
     '@typescript-eslint/eslint-plugin',
     '@typescript-eslint/parser',
+    'nodemon',
+    'tsconfig-paths',
+    '@swc/core',
+    '@swc-node/register',
   ];
   /**
    * Install package.json dependencies if they exist.

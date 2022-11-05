@@ -35,8 +35,6 @@ const program = new Commander.Command(packageJson.name)
 
 const options = program.opts();
 
-console.log(options);
-
 const packageManager = options.useNpm
   ? 'npm'
   : options.usePnpm
