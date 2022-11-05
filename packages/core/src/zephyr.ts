@@ -40,7 +40,7 @@ export const zephyr = (): ZephyrApplication => {
   }
 
   // Create error middleware
-  app.use('/', createErrorMiddleware());
+  app.use(createErrorMiddleware());
 
   const listen: ZephyrApplication['listen'] = (
     port: number,
