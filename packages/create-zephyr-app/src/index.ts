@@ -9,7 +9,7 @@ import { createApp } from './create-app'
 import packageJson from '../package.json'
 import { getPackageManager, validatePackageName } from './utils/common'
 
-let projectPath: string = ''
+let projectPath: string = '';
 
 const program = new Commander.Command(packageJson.name)
   .version(packageJson.version)
@@ -34,6 +34,8 @@ const program = new Commander.Command(packageJson.name)
   .parse(process.argv)
 
 const options = program.opts();
+
+console.log(options);
 
 const packageManager = !!options.useNpm
   ? 'npm'
