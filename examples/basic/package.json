@@ -9,8 +9,8 @@
     "lint": "zephyr lint"
   },
   "dependencies": {
-    "@zephyr/core": "~/dev/projects/zephyrjs/packages/core/dist",
-    "@zephyr/common": "~/dev/projects/zephyrjs/packages/common/dist"
+    "@zephyr-js/core": "~/dev/projects/zephyrjs/packages/core/dist",
+    "@zephyr-js/common": "~/dev/projects/zephyrjs/packages/common/dist"
   },
   "devDependencies": {
     "@types/node": "18.11.9",

@@ -1,5 +1,5 @@
 {
-  "name": "@zephyr/common",
+  "name": "@zephyr-js/common",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -1,4 +1,4 @@
-import { ZephyrApplication } from '@zephyr/core';
+import { ZephyrApplication } from '@zephyr-js/core';
 
 const bootstrap = async () => {
   const app = new ZephyrApplication();

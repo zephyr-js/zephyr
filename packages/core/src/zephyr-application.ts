@@ -1,7 +1,7 @@
 import { Server, createServer } from 'http';
 import express, { RequestHandler } from 'express';
 import { loadRoutes } from './utils/routes-loader';
-import { ExpressRequestMethod } from '@zephyr/common';
+import { ExpressRequestMethod } from '@zephyr-js/common';
 import {
   createHandlerMiddleware,
   createValidationMiddleware,

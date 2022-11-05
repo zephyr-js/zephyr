@@ -1,4 +1,4 @@
-import { ZephyrRoute, ROUTE_METHODS, ZephyrHandler } from '@zephyr/common';
+import { ZephyrRoute, ROUTE_METHODS, ZephyrHandler } from '@zephyr-js/common';
 import glob from 'glob';
 import { normalize, parse, join, dirname } from 'path';
 
