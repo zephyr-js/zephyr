@@ -1,2 +1,2 @@
-export * from './zephyr-application';
-export { ZephyrApplication as default } from './zephyr-application';
+export * from './zephyr';
+export { zephyr as default } from './zephyr';

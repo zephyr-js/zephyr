@@ -1,7 +1,7 @@
-import { ZephyrApplication } from '@zephyr-js/core';
+import zephyr from '@zephyr-js/core';
 
 const bootstrap = async () => {
-  const app = new ZephyrApplication();
+  const app = zephyr();
   const port = Number(process.env.PORT || 3000);
   app.listen(port, () =>
     console.info('Zephyr application is running on port', port),
