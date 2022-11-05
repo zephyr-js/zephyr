@@ -1,5 +1,25 @@
 {
   "name": "zephyrjs",
+  "description": "Zephyr - Modern Node.js meta framework designed to provide the best developer experience possible",
+  "author": {
+    "name": "KaKeng Loh",
+    "email": "kakengloh@gmail.com"
+  },
+  "homepage": "https://github.com/zephyr-js/zephyr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zephyr-js/zephyr"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "express",
+    "zephyr",
+    "zephyr.js"
+  ],
   "scripts": {
     "dev": "turbo run dev",
     "lint": "turbo run lint",
