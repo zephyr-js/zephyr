@@ -1,2 +1,4 @@
 root: true
 extends: custom
+ignorePatterns:
+  - templates/**

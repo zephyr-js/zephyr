@@ -40,11 +40,10 @@ export const installTemplate = async ({
   /**
    * Default dependencies.
    */
-  const dependencies = ['express'];
+  const dependencies = ['@zephyr/core'];
   const devDependencies = [
     'typescript',
     '@types/node',
-    '@types/express',
     'eslint',
     'prettier',
     'eslint-config-prettier',

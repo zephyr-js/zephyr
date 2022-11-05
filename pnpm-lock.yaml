@@ -31,14 +31,15 @@ importers:
       '@types/express': ^4.17.14
       '@types/glob': ^8.0.0
       '@types/node': ^18.11.9
-      '@zephyrjs/common': workspace:*
+      '@zephyr/common': workspace:*
       eslint-config-custom: workspace:*
       express: ^4.18.2
       glob: ^8.0.3
       tsconfig: workspace:*
+      tsconfig-paths: ^4.1.0
       zod: ^3.19.1
     dependencies:
-      '@zephyrjs/common': link:../common
+      '@zephyr/common': link:../common
       express: 4.18.2
       glob: 8.0.3
       zod: 3.19.1
@@ -48,6 +49,7 @@ importers:
       '@types/node': 18.11.9
       eslint-config-custom: link:../eslint-config-custom
       tsconfig: link:../tsconfig
+      tsconfig-paths: 4.1.0
 
   packages/create-zephyr-app:
     specifiers:
@@ -1942,6 +1944,12 @@ packages:
       minimist: 1.2.7
     dev: false
 
+  /json5/2.2.1:
+    resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
+    engines: {node: '>=6'}
+    hasBin: true
+    dev: true
+
   /kind-of/3.2.2:
     resolution: {integrity: sha512-NOW9QQXMoZGg/oqnVNoNTTIFEIid1627WCffUBJEdMxYApq7mNE7CpzucIPc+ZQg25Phej7IJSmX3hO+oblOtQ==}
     engines: {node: '>=0.10.0'}
@@ -2697,7 +2705,6 @@ packages:
   /strip-bom/3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
     engines: {node: '>=4'}
-    dev: false
 
   /strip-json-comments/2.0.1:
     resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
@@ -2790,6 +2797,15 @@ packages:
       minimist: 1.2.7
       strip-bom: 3.0.0
     dev: false
+
+  /tsconfig-paths/4.1.0:
+    resolution: {integrity: sha512-AHx4Euop/dXFC+Vx589alFba8QItjF+8hf8LtmuiCwHyI4rHXQtOOENaM8kvYf5fR0dRChy3wzWIZ9WbB7FWow==}
+    engines: {node: '>=6'}
+    dependencies:
+      json5: 2.2.1
+      minimist: 1.2.7
+      strip-bom: 3.0.0
+    dev: true
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
