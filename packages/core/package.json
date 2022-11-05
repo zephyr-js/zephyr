@@ -1,7 +1,7 @@
 {
   "name": "@zephyr-js/core",
   "version": "0.1.0",
-  "description": "Zephyr - Modern Node.js meta framework (@core)",
+  "description": "Zephyr - Modern Node.js meta framework designed to provide the best developer experience possible (@core)",
   "author": {
     "name": "KaKeng Loh",
     "email": "kakengloh@gmail.com"
@@ -15,6 +15,14 @@
     "access": "public"
   },
   "license": "MIT",
+  "keywords": [
+    "node",
+    "express",
+    "zephyr",
+    "zephyr.js"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint --fix src",
