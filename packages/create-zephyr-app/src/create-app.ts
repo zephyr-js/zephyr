@@ -1,28 +1,33 @@
 import path from 'path';
 import chalk from 'chalk';
-import { isWriteable, makeDir, PackageManager } from '@/utils/common';
+import { isWriteable, mkdir, PackageManager } from '@/utils/common';
 import { installTemplate } from './templates';
-import { tryGitInit } from './utils/git';
+import { gitInit } from './utils/git';
 
 interface CreateAppOptions {
   appPath: string;
   packageManager: PackageManager;
 }
 
-export const createApp = async ({ appPath, packageManager }: CreateAppOptions): Promise<void> => {
+export const createApp = async ({
+  appPath,
+  packageManager,
+}: CreateAppOptions): Promise<void> => {
   const root = path.resolve(appPath);
-  
-  if (!(await isWriteable(root))) {
-    console.error('The application path is not writable, please check folder permissions and try again.');
-    console.error(
-      'It is likely you do not have write permissions for this folder.'
-    );
-    process.exit(1);
-  }
+
+  // if (!(await isWriteable(root))) {
+  //   console.error(
+  //     'The application path is not writable, please check folder permissions and try again.',
+  //   );
+  //   console.error(
+  //     'It is likely you do not have write permissions for this folder.',
+  //   );
+  //   process.exit(1);
+  // }
 
   const appName = path.basename(root);
 
-  await makeDir(root);
+  await mkdir(root);
 
   const originalDirectory = process.cwd();
 
@@ -42,7 +47,7 @@ export const createApp = async ({ appPath, packageManager }: CreateAppOptions): 
 
   console.log();
 
-  if (tryGitInit(root)) {
+  if (gitInit(root)) {
     console.log('Initialized a git repository.');
     console.log();
   }

@@ -5,19 +5,19 @@ export const isWriteable = async (directory: string): Promise<boolean> => {
   try {
     await fs.promises.access(directory, (fs.constants || fs).W_OK);
     return true;
-  } catch (err) {
+  } catch (_) {
     return false;
   }
 };
 
-export const makeDir = async (
+export const mkdir = async (
   root: string,
-  options = { recursive: true }
+  options = { recursive: true },
 ): Promise<void> => {
   await fs.promises.mkdir(root, options);
 };
 
-export type PackageManager = 'npm' | 'yarn' | 'pnpm'
+export type PackageManager = 'npm' | 'yarn' | 'pnpm';
 
 export const getPackageManager = (): PackageManager => {
   const userAgent = process.env.npm_config_user_agent;
@@ -25,7 +25,7 @@ export const getPackageManager = (): PackageManager => {
   if (!userAgent) {
     return 'npm';
   }
-  
+
   if (userAgent.startsWith('yarn')) {
     return 'yarn';
   } else if (userAgent.startsWith('pnpm')) {
@@ -36,19 +36,16 @@ export const getPackageManager = (): PackageManager => {
 };
 
 export function validatePackageName(name: string): {
-  valid: boolean
-  problems?: string[]
+  valid: boolean;
+  problems: string[];
 } {
-  const nameValidation = validateProjectName(name);
-  if (nameValidation.validForNewPackages) {
-    return { valid: true };
+  const validation = validateProjectName(name);
+  if (validation.validForNewPackages) {
+    return { valid: true, problems: [] };
   }
 
   return {
     valid: false,
-    problems: [
-      ...(nameValidation.errors || []),
-      ...(nameValidation.warnings || []),
-    ],
+    problems: [...(validation.errors || []), ...(validation.warnings || [])],
   };
 }

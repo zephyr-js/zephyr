@@ -12,16 +12,21 @@ interface InstallTemplateOptions {
   packageManager: PackageManager;
 }
 
-export const installTemplate = async ({ appName, root, template, packageManager }: InstallTemplateOptions) => {
+export const installTemplate = async ({
+  appName,
+  root,
+  template,
+  packageManager,
+}: InstallTemplateOptions) => {
   const packageJson = {
     name: appName,
     version: '0.1.0',
     private: true,
     scripts: {
-      dev: 'next dev',
-      build: 'next build',
-      start: 'next start',
-      lint: 'next lint',
+      dev: 'zephyr dev',
+      build: 'zephyr build',
+      start: 'zephyr start',
+      lint: 'zephyr lint',
     },
   };
   /**
@@ -29,17 +34,25 @@ export const installTemplate = async ({ appName, root, template, packageManager 
    */
   fs.writeFileSync(
     path.join(root, 'package.json'),
-    JSON.stringify(packageJson, null, 2) + os.EOL
+    JSON.stringify(packageJson, null, 2) + os.EOL,
   );
-  /**
-   * These flags will be passed to `install()`, which calls the package manager
-   * install process.
-   */
-  const installFlags = { packageManager };
+
   /**
    * Default dependencies.
    */
-  const dependencies = ['express', 'typescript', '@types/node', '@types/express', 'eslint'];
+  const dependencies = ['express'];
+  const devDependencies = [
+    'typescript',
+    '@types/node',
+    '@types/express',
+    'eslint',
+    'prettier',
+    'eslint-config-prettier',
+    'eslint-import-resolver-typescript',
+    'eslint-plugin-import',
+    '@typescript-eslint/eslint-plugin',
+    '@typescript-eslint/parser',
+  ];
   /**
    * Install package.json dependencies if they exist.
    */
@@ -51,19 +64,36 @@ export const installTemplate = async ({ appName, root, template, packageManager 
     }
     console.log();
 
-    await install(root, dependencies, installFlags);
+    await install(root, dependencies, { packageManager });
+  }
+  if (devDependencies.length) {
+    console.log();
+    console.log('Installing dependencies:');
+    for (const devDependency of devDependencies) {
+      console.log(`- ${devDependency}`);
+    }
+    console.log();
+
+    await install(root, devDependencies, {
+      packageManager,
+      dev: true,
+    });
   }
   /**
    * Copy the template files to the target directory.
    */
   console.log('\nInitializing project with template:', template, '\n');
-  const templatePath = path.join(__dirname, template);
+
+  const templatePath = path.join(__dirname, 'templates', template);
+
   await cpy('**', root, {
+    parents: true,
     cwd: templatePath,
     rename: (name) => {
       switch (name) {
       case 'gitignore':
-      case 'eslintrc.yml': {
+      case 'eslintrc.yml':
+      case 'prettierrc.yml': {
         return '.'.concat(name);
       }
       // README.md is ignored by webpack-asset-relocator-loader used by ncc:

@@ -17,15 +17,6 @@
         "dist/**",
         "build/**"
       ]
-    },
-    "build:dev": {
-      "inputs": [
-        "**/*.ts"
-      ],
-      "outputs": [
-        "dist/**",
-        "build/**"
-      ]
     }
   }
 }

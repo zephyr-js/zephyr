@@ -20,8 +20,9 @@ const isInMercurialRepository = (): boolean => {
   return false;
 };
 
-export function tryGitInit(root: string): boolean {
+export function gitInit(root: string): boolean {
   let didInit = false;
+
   try {
     execSync('git --version', { stdio: 'ignore' });
     if (isInGitRepository() || isInMercurialRepository()) {
@@ -37,8 +38,9 @@ export function tryGitInit(root: string): boolean {
     execSync('git commit -m "Initial commit from Create Next App"', {
       stdio: 'ignore',
     });
+
     return true;
-  } catch (e) {
+  } catch (_) {
     if (didInit) {
       try {
         rimraf.sync(path.join(root, '.git'));

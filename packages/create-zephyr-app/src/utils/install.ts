@@ -5,11 +5,11 @@ interface InstallOptions {
   /**
    * Indicate whether to install packages using npm, pnpm or Yarn.
    */
-  packageManager: PackageManager
+  packageManager: PackageManager;
   /**
    * Indicate whether the given dependencies are devDependencies.
    */
-  devDependencies?: boolean
+  dev?: boolean;
 }
 
 /**
@@ -20,7 +20,7 @@ interface InstallOptions {
 export function install(
   root: string,
   dependencies: string[] | null,
-  { packageManager, devDependencies }: InstallOptions
+  { packageManager, dev = false }: InstallOptions,
 ): Promise<void> {
   /**
    * (p)npm-specific command-line flags.
@@ -48,14 +48,14 @@ export function install(
          */
         args = ['add', '--exact'];
         args.push('--cwd', root);
-        if (devDependencies) args.push('--dev');
+        if (dev) args.push('--dev');
         args.push(...dependencies);
       } else {
         /**
          * Call `(p)npm install [--save|--save-dev] ...`.
          */
         args = ['install', '--save-exact'];
-        args.push(devDependencies ? '--save-dev' : '--save');
+        args.push(dev ? '--save-dev' : '--save');
         args.push(...dependencies);
       }
     } else {
@@ -65,6 +65,7 @@ export function install(
        */
       args = ['install'];
     }
+
     /**
      * Add any package manager-specific flags.
      */
@@ -73,6 +74,7 @@ export function install(
     } else {
       args.push(...npmFlags);
     }
+
     /**
      * Spawn the installation process.
      */
@@ -87,6 +89,7 @@ export function install(
         DISABLE_OPENCOLLECTIVE: '1',
       },
     });
+
     child.on('close', (code) => {
       if (code !== 0) {
         reject({ command: `${command} ${args.join(' ')}` });

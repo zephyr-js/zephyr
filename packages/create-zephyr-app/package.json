@@ -17,15 +17,15 @@
   ],
   "scripts": {
     "lint": "eslint --fix src",
-    "build:dev": "ncc build src/index.ts -w -o dist",
-    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register"
+    "dev": "ncc build src/index.ts -w -o dist & cp -R src/templates dist",
+    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register & cp -R src/templates dist"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.34.0",
     "@types/node": "^18.11.9",
     "tsconfig": "workspace:*",
     "eslint-config-custom": "workspace:*",
-    "cpy": "^9.0.1",
+    "cpy": "^7.3.0",
     "chalk": "^5.1.2",
     "cross-spawn": "^7.0.3",
     "@types/cross-spawn": "^6.0.2",

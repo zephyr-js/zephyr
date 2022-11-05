@@ -22,13 +22,13 @@ const program = new Commander.Command(packageJson.name)
     '--use-npm',
     `
   Explicitly tell the CLI to bootstrap the app using npm
-`
+`,
   )
   .option(
     '--use-pnpm',
     `
   Explicitly tell the CLI to bootstrap the app using pnpm
-`
+`,
   )
   .allowUnknownOption()
   .parse(process.argv);
@@ -55,11 +55,13 @@ async function run(): Promise<void> {
       message: 'What is your project named?',
       initial: 'my-app',
       validate: (name: string) => {
-        const validation = validatePackageName(path.basename(path.resolve(name)));
+        const validation = validatePackageName(
+          path.basename(path.resolve(name)),
+        );
         if (validation.valid) {
           return true;
         }
-        return 'Invalid project name: ' + validation.problems![0];
+        return 'Invalid project name: ' + validation.problems[0];
       },
     });
 
@@ -72,11 +74,11 @@ async function run(): Promise<void> {
     console.log(
       '\nPlease specify the project directory:\n' +
         `  ${chalk.cyan(program.name())} ${chalk.green(
-          '<project-directory>'
+          '<project-directory>',
         )}\n` +
         'For example:\n' +
         `  ${chalk.cyan(program.name())} ${chalk.green('my-next-app')}\n\n` +
-        `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`
+        `Run ${chalk.cyan(`${program.name()} --help`)} to see all options.`,
     );
     process.exit(1);
   }
@@ -88,11 +90,13 @@ async function run(): Promise<void> {
   if (!valid) {
     console.error(
       `Could not create a project called ${chalk.red(
-        `"${projectName}"`
-      )} because of npm naming restrictions:`
+        `"${projectName}"`,
+      )} because of npm naming restrictions:`,
     );
 
-    problems!.forEach((p) => console.error(`    ${chalk.red.bold('*')} ${p}`));
+    problems.forEach((problem) =>
+      console.error(`    ${chalk.red.bold('*')} ${problem}`),
+    );
     process.exit(1);
   }
 
@@ -117,11 +121,13 @@ async function notifyUpdate(): Promise<void> {
             : 'npm i -g create-zephyr-app';
 
       console.log(
-        chalk.yellow.bold('A new version of `create-zephyr-app` is available!') +
+        chalk.yellow.bold(
+          'A new version of `create-zephyr-app` is available!',
+        ) +
           '\n' +
           'You can update by running: ' +
           chalk.cyan(updateMessage) +
-          '\n'
+          '\n',
       );
     }
     process.exit();
@@ -135,14 +141,16 @@ run()
   .catch(async (reason) => {
     console.log();
     console.log('Aborting installation.');
+
     if (reason.command) {
       console.log(`  ${chalk.cyan(reason.command)} has failed.`);
     } else {
       console.log(
         chalk.red('Unexpected error. Please report it as a bug:') + '\n',
-        reason
+        reason,
       );
     }
+
     console.log();
 
     await notifyUpdate();
