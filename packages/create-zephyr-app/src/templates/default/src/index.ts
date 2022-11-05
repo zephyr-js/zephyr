@@ -2,7 +2,7 @@ import { ZephyrApplication } from '@zephyr-js/core';
 
 const bootstrap = async () => {
   const app = new ZephyrApplication();
-  const port = process.env.PORT;
+  const port = Number(process.env.PORT || 3000);
   app.listen(port, () =>
     console.info('Zephyr application is running on port', port),
   );

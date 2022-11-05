@@ -21,7 +21,7 @@ export const createApp = async ({
 }: CreateAppOptions): Promise<void> => {
   const root = path.resolve(appPath);
 
-  if (!(await isWriteable(root))) {
+  if (!(await isWriteable(path.dirname(root)))) {
     console.error(
       'The application path is not writable, please check folder permissions and try again.',
     );

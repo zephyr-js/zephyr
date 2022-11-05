@@ -5,9 +5,10 @@ import validateProjectName from 'validate-npm-package-name';
 
 export const isWriteable = async (directory: string): Promise<boolean> => {
   try {
-    await fs.promises.access(directory, (fs.constants || fs).W_OK);
+    await fs.promises.access(directory, fs.constants.W_OK);
     return true;
-  } catch (_) {
+  } catch (err) {
+    console.error(err);
     return false;
   }
 };
