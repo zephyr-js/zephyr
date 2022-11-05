@@ -1,5 +1,20 @@
 {
   "name": "@zephyr-js/common",
+  "version": "0.1.0",
+  "description": "Zephyr - Modern Node.js meta framework (@common)",
+  "author": {
+    "name": "KaKeng Loh",
+    "email": "kakengloh@gmail.com"
+  },
+  "homepage": "https://github.com/zephyr-js/zephyr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zephyr-js/zephyr"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

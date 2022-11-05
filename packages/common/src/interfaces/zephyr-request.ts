@@ -1,4 +1,4 @@
-import { Request as ExpressRequest } from 'express';
+import type { Request as ExpressRequest } from 'express';
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type ExpressRequestMethod = 'get' | 'post' | 'put' | 'delete';
