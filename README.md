@@ -31,7 +31,9 @@ It has a file-system based router, but rather than exporting a React component f
 - ✨&nbsp; Productivity boost - Bootstrap your project with `create-zephyr-app` and start writing API endpoints.
 - 🍃&nbsp; Lightweight - Zephyr is only a thin layer on top of Express.
 
-<!-- ## Quickstart
+## Getting started
+
+### Bootstrap project
 ```sh
 # pnpm
 pnpm create zephyr-app <app-name>
@@ -39,11 +41,21 @@ pnpm create zephyr-app <app-name>
 yarn create zephyr-app <app-name>
 # npm
 npx create-zephyr-app <app-name>
-``` -->
+```
+
+### Running development server
+```sh
+# pnpm
+pnpm dev
+# yarn
+yarn dev
+# npm
+npm run dev
+```
 
 ## A small taste
 
-All files under `src/api` will be automatically mapped to API endpoints with their respective paths
+All files under `src/api` will be automatically mapped to API endpoints with their respective paths.
 
 ### Basic
 ```typescript
@@ -100,8 +112,8 @@ export const handler: ZephyrHandlerWithSchema<typeof schema> = async (
 ```
 
 ## TODO
-- [ ] Supports middleware
-- [ ] Complete `create-zephyr-app`
-- [ ] Publish `@zephyr-js/core`, `@zephyr-js/common` and `create-zephyr-app` to [NPM](https://www.npmjs.com/)
-- [ ] Create `zephyr` cli
+- [x] Complete `create-zephyr-app`
+- [x] Publish `@zephyr-js/core`, `@zephyr-js/common` and `create-zephyr-app` to [NPM](https://www.npmjs.com/)
 - [ ] Create unit tests
+- [ ] Supports middleware
+- [ ] Create `zephyr` cli
