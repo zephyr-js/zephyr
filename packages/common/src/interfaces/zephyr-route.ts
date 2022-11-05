@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { AnyZodObject } from 'zod';
-import { ZephyrHandler } from './zephyr-handler'
+import { ZephyrHandler } from './zephyr-handler';
 import { ZephyrBaseRequest } from './zephyr-request';
 
 export interface ZephyrRoute<TRequest extends ZephyrBaseRequest = any, TResponse = any> {

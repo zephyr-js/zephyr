@@ -2,10 +2,12 @@ import { Server, createServer } from 'http';
 import express, { RequestHandler } from 'express';
 import { loadRoutes } from './utils/routes-loader';
 import { ExpressRequestMethod } from '@zephyrjs/common';
-import { createHandlerMiddleware, createValidationMiddleware } from './utils/middlewares';
+import {
+  createHandlerMiddleware,
+  createValidationMiddleware,
+} from './utils/middlewares';
 
 type ExpressApplication = ReturnType<typeof express>;
-
 
 export class ZephyrApplication {
   private app: ExpressApplication;

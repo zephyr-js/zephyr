@@ -25,6 +25,7 @@ export const loadRoutes = (): ZephyrRoute[] => {
   const files = glob.sync(normalize(pattern));
 
   return files.map((file) => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const route: Omit<ZephyrRoute, 'method' | 'path'> = require(file);
     return {
       ...route,
@@ -33,5 +34,5 @@ export const loadRoutes = (): ZephyrRoute[] => {
       before: route.before || [],
       after: route.after || [],
     };
-  })
+  });
 };

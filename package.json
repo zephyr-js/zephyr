@@ -2,6 +2,7 @@
   "name": "zephyrjs",
   "scripts": {
     "dev": "turbo run dev",
+    "lint": "turbo run lint",
     "build": "turbo run build",
     "build:dev": "turbo run build"
   },

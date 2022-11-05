@@ -1,5 +1,5 @@
-import spawn from 'cross-spawn'
-import type { PackageManager } from './common'
+import spawn from 'cross-spawn';
+import type { PackageManager } from './common';
 
 interface InstallOptions {
   /**
@@ -25,18 +25,18 @@ export function install(
   /**
    * (p)npm-specific command-line flags.
    */
-  const npmFlags: string[] = []
+  const npmFlags: string[] = [];
   /**
    * Yarn-specific command-line flags.
    */
-  const yarnFlags: string[] = []
+  const yarnFlags: string[] = [];
   /**
    * Return a Promise that resolves once the installation is finished.
    */
   return new Promise((resolve, reject) => {
-    let args: string[]
-    let command = packageManager
-    const useYarn = packageManager === 'yarn'
+    let args: string[];
+    const command = packageManager;
+    const useYarn = packageManager === 'yarn';
 
     if (dependencies && dependencies.length) {
       /**
@@ -46,32 +46,32 @@ export function install(
         /**
          * Call `yarn add --exact (--offline)? (-D)? ...`.
          */
-        args = ['add', '--exact']
-        args.push('--cwd', root)
-        if (devDependencies) args.push('--dev')
-        args.push(...dependencies)
+        args = ['add', '--exact'];
+        args.push('--cwd', root);
+        if (devDependencies) args.push('--dev');
+        args.push(...dependencies);
       } else {
         /**
          * Call `(p)npm install [--save|--save-dev] ...`.
          */
-        args = ['install', '--save-exact']
-        args.push(devDependencies ? '--save-dev' : '--save')
-        args.push(...dependencies)
+        args = ['install', '--save-exact'];
+        args.push(devDependencies ? '--save-dev' : '--save');
+        args.push(...dependencies);
       }
     } else {
       /**
        * If there are no dependencies, run a variation of `{packageManager}
        * install`.
        */
-      args = ['install']
+      args = ['install'];
     }
     /**
      * Add any package manager-specific flags.
      */
     if (useYarn) {
-      args.push(...yarnFlags)
+      args.push(...yarnFlags);
     } else {
-      args.push(...npmFlags)
+      args.push(...npmFlags);
     }
     /**
      * Spawn the installation process.
@@ -86,13 +86,13 @@ export function install(
         NODE_ENV: 'development',
         DISABLE_OPENCOLLECTIVE: '1',
       },
-    })
+    });
     child.on('close', (code) => {
       if (code !== 0) {
-        reject({ command: `${command} ${args.join(' ')}` })
-        return
+        reject({ command: `${command} ${args.join(' ')}` });
+        return;
       }
-      resolve()
-    })
-  })
+      resolve();
+    });
+  });
 }

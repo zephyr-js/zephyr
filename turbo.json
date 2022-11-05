@@ -4,6 +4,11 @@
     "dev": {
       "cache": false
     },
+    "lint": {
+      "inputs": [
+        "**/*.{js,ts}"
+      ]
+    },
     "build": {
       "inputs": [
         "**/*.ts"

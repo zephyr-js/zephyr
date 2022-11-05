@@ -47,12 +47,12 @@ export const createApp = async ({ appPath, packageManager }: CreateAppOptions): 
     console.log();
   }
 
-  let cdpath: string
+  let cdpath: string;
   if (path.join(originalDirectory, appName) === appPath) {
-    cdpath = appName
+    cdpath = appName;
   } else {
-    cdpath = appPath
+    cdpath = appPath;
   }
 
-  console.log(`${chalk.green('Success!')} Created ${appName} at ${appPath}`)
-}
+  console.log(`${chalk.green('Success!')} Created ${appName} at ${appPath}`);
+};

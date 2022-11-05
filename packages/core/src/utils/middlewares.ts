@@ -24,7 +24,7 @@ export const createValidationMiddleware = (
     } catch (err) {
       if (err instanceof ZodError) {
         const { errors } = err;
-        return res.status(400).json({ errors })
+        return res.status(400).json({ errors });
       }
     }
   };
@@ -37,5 +37,5 @@ export const createErrorMiddleware = <
   return (err, req, res, next) => {
     fn(req, res, err);
     return next();
-  }
-}
+  };
+};

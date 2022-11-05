@@ -16,6 +16,7 @@
     "dist"
   ],
   "scripts": {
+    "lint": "eslint --fix src",
     "build:dev": "ncc build src/index.ts -w -o dist",
     "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register"
   },

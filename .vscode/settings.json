@@ -4,5 +4,21 @@
     "packages/core",
     "packages/common",
     "packages/create-zephyr-app"
+  ],
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "eslint-config-custom/index.js",
+        ".eslintrc.yml"
+      ],
+      "url": "https://json.schemastore.org/eslintrc"
+    },
+    {
+      "fileMatch": [
+        "tsconfig/base.json",
+        "tsconfig.json"
+      ],
+      "url": "https://json.schemastore.org/tsconfig"
+    }
   ]
 }
