@@ -42,6 +42,7 @@ npx create-zephyr-app <app-name>
 ``` -->
 
 ## TODO
+- [ ] Supports middleware
 - [ ] Complete `create-zephyr-app`
 - [ ] Publish `@zephyr-js/core`, `@zephyr-js/common` and `create-zephyr-app` to [NPM](https://www.npmjs.com/)
 - [ ] Create `zephyr` cli
