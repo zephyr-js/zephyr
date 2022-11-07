@@ -4,7 +4,16 @@
       <img src="https://user-images.githubusercontent.com/40446720/200107694-75fd7950-53ca-47c6-8cba-3e42a3c168f5.png" height="128" alt="Zephyr.js logo">
     </picture>
     <h1 align="center">Zephyr.js</h1>
-    <p align="center">A modern <a href="http://nodejs.org" target="_blank">Node.js</a> meta framework designed to provide the best developer experience possible.</p>
+    <p align="center">A modern <a href="http://nodejs.org" target="_blank">Node.js</a> meta framework designed to provide the best developer experience possible.
+      <p align="center">
+        <a href="https://github.com/zephyr-js/zephyr/actions/workflows/ci.yml">
+          <img src="https://github.com/zephyr-js/zephyr/actions/workflows/ci.yml/badge.svg" alt="Zephyr.js CI workflow" />
+        </a>
+        <a href="https://codecov.io/gh/zephyr-js/zephyr">
+          <img src="https://codecov.io/gh/zephyr-js/zephyr/branch/main/graph/badge.svg" />
+        </a>
+      </p>
+    </p>
   </a>
 </p>
 
@@ -34,6 +43,7 @@ It has a file-system based router, but rather than exporting a React component f
 ## Getting started
 
 ### Bootstrap project
+
 ```sh
 # pnpm
 pnpm create zephyr-app <app-name>
@@ -44,6 +54,7 @@ npx create-zephyr-app <app-name>
 ```
 
 ### Running development server
+
 ```sh
 # pnpm
 pnpm dev
@@ -58,6 +69,7 @@ npm run dev
 All files under `src/api` will be automatically mapped to API endpoints with their respective paths.
 
 ### Basic
+
 ```typescript
 // src/api/get.ts
 // This file will be mapped to "GET /" endpoint
@@ -108,12 +120,13 @@ export const handler: ZephyrHandlerWithSchema<typeof schema> = async (
   const item: Item = req.body; // Type checked
   return res.json({ item }); // Type checked
 };
-
 ```
 
 ## TODO
+
 - [x] Complete `create-zephyr-app`
 - [x] Publish `@zephyr-js/core`, `@zephyr-js/common` and `create-zephyr-app` to [NPM](https://www.npmjs.com/)
 - [ ] Create unit tests
 - [ ] Supports middleware
+- [ ] Supports dependency injection
 - [ ] Create `zephyr` cli
