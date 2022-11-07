@@ -8,26 +8,39 @@ on:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
-          version: 7
-          run_install: false
-      - name: Use Node.js ${{ matrix.node-version }}
+          version: 6.32.2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: pnpm i
-      - run: pnpm lint
-      - run: pnpm build
-      - run: pnpm test
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
+        
       - uses: codecov/codecov-action@v3
         with:
           files: ./packages/core/coverage-final.json

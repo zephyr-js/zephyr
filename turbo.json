@@ -10,6 +10,9 @@
       ]
     },
     "test": {
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "**/*.{ts}"
       ],
@@ -18,6 +21,9 @@
       ]
     },
     "build": {
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "**/*.ts"
       ],

@@ -1,15 +1,10 @@
-import path from 'path';
 import supertest from 'supertest';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 import { z } from 'zod';
 import * as routesLoader from './utils/routes-loader';
 import { zephyr } from './zephyr';
 
 describe('Zephyr', () => {
-  beforeEach(() => {
-    console.log('Hi');
-  });
-
   afterEach(() => {
     vi.restoreAllMocks();
   });
