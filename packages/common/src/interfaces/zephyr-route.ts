@@ -7,7 +7,7 @@ export interface ZephyrRoute<
   TRequest extends ZephyrBaseRequest = any,
   TResponse = any,
 > {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   path: string;
   schema?: AnyZodObject;
   handler: ZephyrHandler<TRequest, TResponse>;
@@ -15,4 +15,4 @@ export interface ZephyrRoute<
   after?: RequestHandler | RequestHandler[];
 }
 
-export const ROUTE_METHODS = ['GET', 'POST', 'PUT', 'DELETE'] as const;
+export const ROUTE_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'] as const;
