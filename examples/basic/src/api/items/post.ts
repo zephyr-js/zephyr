@@ -1,14 +1,6 @@
 import { z } from 'zod';
 import { ZephyrHandlerWithSchema } from '@zephyr-js/common';
-
-// Model schema
-const ItemSchema = z.object({
-  name: z.string(),
-  price: z.number(),
-});
-
-// Model type
-type Item = z.infer<typeof ItemSchema>;
+import { Item, ItemSchema } from '@/models/item';
 
 // Endpoint schema, auto validated with Zod
 // Supports `params`, `body`, `query` and `response`

@@ -68,9 +68,10 @@ describe('Create error middleware', () => {
   test('Default error middleware', async () => {
     const app = express();
 
-    app.get('/', () => {
+    const handlerMiddleware = createHandlerMiddleware(async () => {
       throw new Error('Something went wrong');
     });
+    app.get('/', handlerMiddleware);
 
     const errorMiddleware = createErrorMiddleware();
     app.use(errorMiddleware);
@@ -82,9 +83,10 @@ describe('Create error middleware', () => {
   test('Custom error function in middleware', async () => {
     const app = express();
 
-    app.get('/', () => {
+    const handlerMiddleware = createHandlerMiddleware(async () => {
       throw new Error('Something went wrong');
     });
+    app.get('/', handlerMiddleware);
 
     const errorMiddleware = createErrorMiddleware((err, req, res) => {
       return res.status(401).send('Unauthorized');

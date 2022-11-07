@@ -2,8 +2,7 @@ import { ZephyrRoute, ROUTE_METHODS, ZephyrHandler } from '@zephyr-js/common';
 import glob from 'glob';
 import { normalize, parse, join, dirname } from 'path';
 
-export const pwd = () => {
-  const main = require.main;
+export const pwd = (main = require.main) => {
   if (!main) {
     throw new Error('`main` not found');
   }
@@ -22,8 +21,17 @@ export const extractMethod = (file: string) => {
 };
 
 export const extractPath = (file: string, dir: string) => {
-  const path = file.split('/').slice(0, -1).join('/').replace(dir, '');
-  return path || '/';
+  return (
+    file
+      // Remove directory prefix
+      .split('/')
+      .slice(0, -1)
+      .join('/')
+      .replace(dir, '')
+      // Convert [param] to :param for dynamic routes
+      .replaceAll('[', ':')
+      .replaceAll(']', '') || '/'
+  );
 };
 
 export const loadRoutes = async (dir = apiDir()): Promise<ZephyrRoute[]> => {
