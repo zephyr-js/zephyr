@@ -2,7 +2,7 @@ import { ZephyrRoute, ROUTE_METHODS, ZephyrHandler } from '@zephyr-js/common';
 import glob from 'glob';
 import { normalize, parse, join, dirname } from 'path';
 
-const pwd = () => {
+export const pwd = () => {
   const main = require.main;
   if (!main) {
     throw new Error('`main` not found');
@@ -21,34 +21,30 @@ export const extractMethod = (file: string) => {
   return method;
 };
 
-export const extractPath = (file: string) => {
-  const path = file
-    .split('/')
-    .slice(0, -1)
-    .join('/')
-    .replace(srcDir() + '/api', '');
-
+export const extractPath = (file: string, dir: string) => {
+  const path = file.split('/').slice(0, -1).join('/').replace(dir, '');
   return path || '/';
 };
 
-export const loadRoutes = (): ZephyrRoute[] => {
-  const pattern = apiDir() + '/**/{get,post,put,delete,patch,head}.ts';
+export const loadRoutes = async (dir = apiDir()): Promise<ZephyrRoute[]> => {
+  const pattern = dir + '/**/{get,post,put,delete,patch,head}.ts';
 
   const files = glob.sync(normalize(pattern));
 
-  return files.map((file) => {
-    const route: Omit<ZephyrRoute, 'method' | 'path'> & {
-      default?: ZephyrHandler;
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-    } = require(file);
-    const handler = route.default || route.handler;
-    return {
-      ...route,
-      handler,
-      method: extractMethod(file),
-      path: extractPath(file),
-      before: route.before || [],
-      after: route.after || [],
-    };
-  });
+  return Promise.all(
+    files.map(async (file) => {
+      const route: Omit<ZephyrRoute, 'method' | 'path'> & {
+        default?: ZephyrHandler;
+      } = await import(file);
+      const handler = route.default || route.handler;
+      return {
+        ...route,
+        handler,
+        method: extractMethod(file),
+        path: extractPath(file, dir),
+        before: route.before || [],
+        after: route.after || [],
+      };
+    }),
+  );
 };

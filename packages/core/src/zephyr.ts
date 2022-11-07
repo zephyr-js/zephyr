@@ -7,18 +7,15 @@ import {
 } from './utils/middlewares';
 
 type ExpressApplication = ReturnType<typeof express>;
+export type ZephyrApplication = ExpressApplication;
 
-export type ZephyrApplication = {
-  listen: (port: number, callback?: () => void) => void;
-};
-
-export const zephyr = (): ZephyrApplication => {
+export const zephyr = async (): Promise<ZephyrApplication> => {
   // Create express app
   const app = express();
   app.use(express.json());
 
   // Load routes from src/api
-  const routes = loadRoutes();
+  const routes = await loadRoutes();
 
   // Register routes
   for (const route of routes) {
@@ -42,14 +39,5 @@ export const zephyr = (): ZephyrApplication => {
   // Create error middleware
   app.use(createErrorMiddleware());
 
-  const listen: ZephyrApplication['listen'] = (
-    port: number,
-    callback?: () => void,
-  ) => {
-    app.listen(port, callback);
-  };
-
-  return {
-    listen,
-  };
+  return app;
 };

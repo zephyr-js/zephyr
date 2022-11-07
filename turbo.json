@@ -9,6 +9,14 @@
         "**/*.{js,ts}"
       ]
     },
+    "test": {
+      "inputs": [
+        "**/*.{ts}"
+      ],
+      "outputs": [
+        "coverage/**"
+      ]
+    },
     "build": {
       "inputs": [
         "**/*.ts"

@@ -5,7 +5,8 @@ import {
   ZephyrResponse,
 } from '@zephyr-js/common';
 import { ErrorRequestHandler, RequestHandler } from 'express';
-import { AnyZodObject, ZodError } from 'zod';
+import { AnyZodObject } from 'zod';
+import { isZodError } from './common';
 
 export const createHandlerMiddleware = (
   handler: ZephyrHandlerAny,
@@ -25,7 +26,13 @@ export const createValidationMiddleware = (
 ): RequestHandler => {
   return (req, _, next) => {
     try {
-      schema.omit({ response: true }).parse(req);
+      schema
+        .pick({
+          params: true,
+          body: true,
+          query: true,
+        })
+        .parse(req);
     } catch (err) {
       return next(err);
     }
@@ -42,10 +49,6 @@ export type ErrorFunction<
   req: ZephyrRequest<TRequest>,
   res: ZephyrResponse<TResponse>,
 ) => any;
-
-const isZodError = (err: unknown): err is ZodError => {
-  return err instanceof Error && err.name === 'ZodError';
-};
 
 export const createErrorMiddleware = (
   fn?: ErrorFunction,
