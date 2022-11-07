@@ -116,4 +116,5 @@ export const handler: ZephyrHandlerWithSchema<typeof schema> = async (
 - [x] Publish `@zephyr-js/core`, `@zephyr-js/common` and `create-zephyr-app` to [NPM](https://www.npmjs.com/)
 - [ ] Create unit tests
 - [ ] Supports middleware
+- [ ] Supports dependency injection
 - [ ] Create `zephyr` cli
