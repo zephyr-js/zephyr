@@ -36,7 +36,7 @@ importers:
       '@types/node': ^18.11.9
       '@types/supertest': ^2.0.12
       '@vitest/coverage-c8': ^0.24.5
-      '@zephyr-js/common': ^0.1.1
+      '@zephyr-js/common': workspace:*
       eslint-config-custom: workspace:*
       express: ^4.18.2
       glob: ^8.0.3
@@ -47,7 +47,6 @@ importers:
       vitest: ^0.24.5
       zod: ^3.19.1
     dependencies:
-      '@zephyr-js/common': link:../common
       express: 4.18.2
       glob: 8.0.3
       zod: 3.19.1
@@ -58,6 +57,7 @@ importers:
       '@types/node': 18.11.9
       '@types/supertest': 2.0.12
       '@vitest/coverage-c8': 0.24.5
+      '@zephyr-js/common': link:../common
       eslint-config-custom: link:../eslint-config-custom
       nodemon: 2.0.20
       supertest: 6.3.1

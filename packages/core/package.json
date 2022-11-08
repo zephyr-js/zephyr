@@ -32,17 +32,16 @@
   },
   "dependencies": {
     "glob": "^8.0.3",
-    "@zephyr-js/common": "^0.1.1",
     "zod": "^3.19.1",
     "express": "^4.18.2"
   },
   "peerDependencies": {
-    "@zephyr-js/common": "^0.1.1",
     "zod": "^3.19.1"
   },
   "devDependencies": {
     "tsconfig": "workspace:*",
     "eslint-config-custom": "workspace:*",
+    "@zephyr-js/common": "workspace:*",
     "@types/node": "^18.11.9",
     "@types/express": "^4.17.14",
     "@types/glob": "^8.0.0",
