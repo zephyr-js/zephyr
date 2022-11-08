@@ -1,6 +1,6 @@
 {
   "name": "@zephyr-js/core",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Zephyr - Functional Node.js meta framework designed to provide the best developer experience possible (@core)",
   "author": {
     "name": "KaKeng Loh",
@@ -24,11 +24,16 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint --fix src",
     "test": "vitest run --coverage",
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "prepublish": "cp package.json dist",
+    "publish": ""
   },
   "dependencies": {
     "glob": "^8.0.3",
