@@ -1,6 +1,6 @@
 import type { Request as ExpressRequest } from 'express';
 
-export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 export interface ZephyrBaseRequest {
   params?: object;
