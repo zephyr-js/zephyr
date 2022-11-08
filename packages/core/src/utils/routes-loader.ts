@@ -35,7 +35,7 @@ export const extractPath = (file: string, dir: string) => {
 };
 
 export const loadRoutes = async (dir = apiDir()): Promise<ZephyrRoute[]> => {
-  const pattern = '**/{get,post,put,delete,patch,head}.ts';
+  const pattern = '**/{get,post,put,delete,patch}.ts';
   const files = glob
     .sync(pattern, {
       cwd: dir,
