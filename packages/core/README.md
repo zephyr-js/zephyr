@@ -12,6 +12,9 @@
         <a href="https://codecov.io/gh/zephyr-js/zephyr">
           <img src="https://codecov.io/gh/zephyr-js/zephyr/branch/main/graph/badge.svg" />
         </a>
+        <a href="https://www.codefactor.io/repository/github/zephyr-js/zephyr">
+          <img src="https://www.codefactor.io/repository/github/zephyr-js/zephyr/badge" alt="CodeFactor" />
+        </a>
       </p>
     </p>
   </a>
