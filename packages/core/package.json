@@ -1,7 +1,7 @@
 {
   "name": "@zephyr-js/core",
-  "version": "0.1.1",
-  "description": "Zephyr - Modern Node.js meta framework designed to provide the best developer experience possible (@core)",
+  "version": "0.1.2",
+  "description": "Zephyr - Functional Node.js meta framework designed to provide the best developer experience possible (@core)",
   "author": {
     "name": "KaKeng Loh",
     "email": "kakengloh@gmail.com"

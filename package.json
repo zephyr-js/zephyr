@@ -1,6 +1,6 @@
 {
   "name": "zephyrjs",
-  "description": "Zephyr - Modern Node.js meta framework designed to provide the best developer experience possible",
+  "description": "Zephyr - Functional Node.js meta framework designed to provide the best developer experience possible",
   "author": {
     "name": "KaKeng Loh",
     "email": "kakengloh@gmail.com"
