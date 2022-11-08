@@ -36,7 +36,7 @@ importers:
       '@types/node': ^18.11.9
       '@types/supertest': ^2.0.12
       '@vitest/coverage-c8': ^0.24.5
-      '@zephyr-js/common': ^0.1.0
+      '@zephyr-js/common': ^0.1.1
       eslint-config-custom: workspace:*
       express: ^4.18.2
       glob: ^8.0.3
