@@ -10,26 +10,6 @@ importers:
       prettier: 2.7.1
       turbo: 1.6.3
 
-  packages/cli:
-    specifiers:
-      '@types/node': ^18.11.9
-      '@types/prompts': ^2.4.1
-      '@vercel/ncc': ^0.34.0
-      commander: ^9.4.1
-      eslint-config-custom: workspace:*
-      prompts: ^2.4.2
-      tsconfig: workspace:*
-      typescript: ^4.8.4
-    devDependencies:
-      '@types/node': 18.11.9
-      '@types/prompts': 2.4.1
-      '@vercel/ncc': 0.34.0
-      commander: 9.4.1
-      eslint-config-custom: link:../eslint-config-custom
-      prompts: 2.4.2
-      tsconfig: link:../tsconfig
-      typescript: 4.8.4
-
   packages/common:
     specifiers:
       '@types/express': ^4.17.14

@@ -28,95 +28,12 @@ Zephyr places a high value on FP (Functional Programming). Instead of using clas
 
 The established server-side web frameworks for Node.js at the moment are [Nest.js](https://nestjs.com/) and [Adonis.js](https://adonisjs.com/), both of which are fantastic and rely on controllers and decorators in OOP. However, some programmers prefer functional programming to object-oriented programming (OOP). As a result, Zephyr seeks to let programmers write and export functions as API routes and incorporates file-based routing from Next.js.
 
-## Features
-
-- ↪️&nbsp; Intuitive routing - File-system based routing like Next.js.
-- ⚙️&nbsp; Functional by default - Write functions instead of bloated API controllers with hundreds of decorators.
-- ✍️&nbsp; Type-safe - Request and response types are typed checked and validated.
-- ✨&nbsp; Productivity boost - Bootstrap your project with `create-zephyr-app` and start writing API endpoints.
-- 🍃&nbsp; Lightweight - Zephyr is only a thin layer on top of Express.
-
 ## Getting started
 
-### Bootstrap project
-```sh
-# pnpm
-pnpm create zephyr-app <app-name>
-# yarn
-yarn create zephyr-app <app-name>
-# npm
-npx create-zephyr-app <app-name>
-```
-
-### Running development server
-```sh
-# pnpm
-pnpm dev
-# yarn
-yarn dev
-# npm
-npm run dev
-```
-
-## A small taste
-
-All files under `src/api` will be automatically mapped to API endpoints with their respective paths.
-
-### Basic
-```typescript
-// src/api/get.ts
-// This file will be mapped to "GET /" endpoint
-
-import { ZephyrHandler } from '@zephyr-js/common';
-
-// Endpoint handler
-export const handler: ZephyrHandler = async (req, res) => {
-  return res.json({ message: 'Hello world!' });
-};
-```
-
-### Type safety and validation
-
-```typescript
-// src/api/items/post.ts
-// This file will be mapped to "POST /items" endpoint
-
-import { z } from 'zod';
-import { ZephyrHandlerWithSchema } from '@zephyr-js/common';
-
-// Model schema
-const ItemSchema = z.object({
-  name: z.string(),
-  price: z.number(),
-});
-
-// Model type
-type Item = z.infer<typeof ItemSchema>;
-
-// Endpoint schema, auto validated with Zod
-// Supports `params`, `body`, `query` and `response`
-export const schema = z.object({
-  // Request body
-  body: ItemSchema,
-  // Response body
-  response: z.object({
-    item: ItemSchema,
-  }),
-});
-
-// Endpoint handler
-// Request and response type are inferred from the schema above
-export const handler: ZephyrHandlerWithSchema<typeof schema> = async (
-  req,
-  res,
-) => {
-  const item: Item = req.body; // Type checked
-  return res.json({ item }); // Type checked
-};
-
-```
+Kindly visit our documentation on [zephyrjs.com](https://zephyrjs.com/)
 
 ## TODO
+
 - [x] Complete `create-zephyr-app`
 - [x] Publish `@zephyr-js/core`, `@zephyr-js/common` and `create-zephyr-app` to [NPM](https://www.npmjs.com/)
 - [x] Create unit tests
