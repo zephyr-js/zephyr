@@ -1,6 +1,6 @@
 {
   "name": "create-zephyr-app",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Create Zephyr.js powered Node.js apps with one command",
   "author": {
     "name": "KaKeng Loh",

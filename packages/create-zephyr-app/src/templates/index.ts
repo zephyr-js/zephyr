@@ -44,6 +44,7 @@ export const installTemplate = async ({
   const devDependencies = [
     'typescript',
     '@types/node',
+    '@types/express',
     'eslint',
     'prettier',
     'eslint-config-prettier',
