@@ -31,6 +31,9 @@
         "dist/**",
         "build/**"
       ]
+    },
+    "pack": {
+      "cache": false
     }
   }
 }

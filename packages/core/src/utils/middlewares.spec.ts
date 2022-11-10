@@ -9,7 +9,7 @@ import express, { RequestHandler } from 'express';
 import { z } from 'zod';
 import { ZephyrHandler } from '@zephyr-js/common';
 
-describe('Create handler middleware', () => {
+describe('createHandlerMiddleware()', () => {
   let app: ReturnType<typeof express>;
 
   beforeAll(() => {
@@ -28,7 +28,7 @@ describe('Create handler middleware', () => {
   });
 });
 
-describe('Create validation middleware', () => {
+describe('createValidationMiddleware()', () => {
   let app: ReturnType<typeof express>;
 
   beforeAll(() => {
@@ -64,7 +64,7 @@ describe('Create validation middleware', () => {
   });
 });
 
-describe('Create error middleware', () => {
+describe('createErrorMiddleware()', () => {
   test('Default error middleware', async () => {
     const app = express();
 
@@ -88,7 +88,7 @@ describe('Create error middleware', () => {
     });
     app.get('/', handlerMiddleware);
 
-    const errorMiddleware = createErrorMiddleware((err, req, res) => {
+    const errorMiddleware = createErrorMiddleware((req, res) => {
       return res.status(401).send('Unauthorized');
     });
     app.use(errorMiddleware);

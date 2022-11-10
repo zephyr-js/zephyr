@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest';
 import { ZodError } from 'zod';
-import { isZodError } from './common';
+import { isValidationError } from './common';
 
-describe('Common utils', () => {
-  test('Is Zod error', () => {
+describe('isValidationError', () => {
+  test('should return true', () => {
     const err = new ZodError([]);
-    expect(isZodError(err)).toBeTruthy();
+    expect(isValidationError(err)).toBeTruthy();
   });
 });

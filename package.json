@@ -24,7 +24,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "pack": "turbo run pack"
   },
   "devDependencies": {
     "turbo": "^1.6.3",

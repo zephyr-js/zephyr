@@ -1,21 +1,28 @@
 import {
+  OnErrorCapturedHook,
   ZephyrBaseRequest,
-  ZephyrHandlerAny,
+  ZephyrHandler,
   ZephyrRequest,
   ZephyrResponse,
 } from '@zephyr-js/common';
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { AnyZodObject } from 'zod';
-import { isZodError } from './common';
+import { isValidationError } from './common';
 
 export const createHandlerMiddleware = (
-  handler: ZephyrHandlerAny,
+  handler: ZephyrHandler,
+  onErrorCaptured?: OnErrorCapturedHook,
 ): RequestHandler => {
   return async (req, res, next) => {
     try {
       await handler(req, res);
     } catch (err) {
-      return next(err);
+      if (onErrorCaptured) {
+        console.error(err);
+        onErrorCaptured(req, res, err);
+      } else {
+        return next(err);
+      }
     }
     return next();
   };
@@ -45,27 +52,25 @@ export type ErrorFunction<
   TRequest extends ZephyrBaseRequest = any,
   TResponse = any,
 > = (
-  err: TError,
   req: ZephyrRequest<TRequest>,
   res: ZephyrResponse<TResponse>,
+  err: TError,
 ) => any;
 
+const defaultOnErrorCaptured: OnErrorCapturedHook = (_, res, err) => {
+  if (isValidationError(err)) {
+    const { errors } = err;
+    return res.status(400).json({ errors });
+  }
+  return res.status(500).send('Internal server error');
+};
+
 export const createErrorMiddleware = (
-  fn?: ErrorFunction,
+  onErrorCaptured = defaultOnErrorCaptured,
 ): ErrorRequestHandler => {
   return (err, req, res, next) => {
     console.error(err);
-
-    if (fn) {
-      fn(err, req, res);
-      return next();
-    }
-
-    if (isZodError(err)) {
-      const { errors } = err;
-      return res.status(400).json({ errors });
-    }
-
-    return res.status(500).send('Internal server error');
+    onErrorCaptured(req, res, err);
+    return next();
   };
 };
