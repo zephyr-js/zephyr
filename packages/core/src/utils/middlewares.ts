@@ -66,17 +66,11 @@ const defaultOnErrorCaptured: OnErrorCapturedHook = (_, res, err) => {
 };
 
 export const createErrorMiddleware = (
-  onErrorCaptured?: OnErrorCapturedHook,
+  onErrorCaptured = defaultOnErrorCaptured,
 ): ErrorRequestHandler => {
   return (err, req, res, next) => {
     console.error(err);
-
-    if (onErrorCaptured) {
-      onErrorCaptured(req, res, err);
-    } else {
-      defaultOnErrorCaptured(req, res, err);
-    }
-
+    onErrorCaptured(req, res, err);
     return next();
   };
 };
