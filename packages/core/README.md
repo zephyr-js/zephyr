@@ -29,7 +29,7 @@ It is built on top of <a href="https://expressjs.com/" target="_blank">Express.j
 
 ## Philosophy
 
-The established server-side web frameworks for Node.js at the moment are [Nest.js](https://nestjs.com/) and [Adonis.js](https://adonisjs.com/), both of which are fantastic and rely on controllers and decorators in OOP. However, some programmers prefer functional programming to object-oriented programming (OOP). As a result, Zephyr seeks to let programmers write and export functions as API routes and incorporates file-based routing from Next.js.
+The established server-side web frameworks for Node.js at the moment are [Nest.js](https://nestjs.com/) and [Adonis.js](https://adonisjs.com/), both of which are fantastic and rely on controllers and decorators in OOP. However, some programmers prefer functional programming to object-oriented programming (OOP). As a result, Zephyr seeks to let programmers to define API routes with functions and provides file-based routing out of the box.
 
 ## Getting started
 
