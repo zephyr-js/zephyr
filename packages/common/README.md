@@ -22,10 +22,10 @@
 
 ## Description
 
-Zephyr is a <a href="https://www.typescriptlang.org/" target="_blank">Typescript</a> server-side meta framework that is highly inspired by Next.js.
-It is built on top of <a href="https://expressjs.com/" target="_blank">Express.js</a> and uses <a href="https://zod.dev/" target="_blank">Zod</a> in request / response validation as well as providing type-safe API.
+**Zephyr** is a <a href="https://www.typescriptlang.org/" target="_blank">Typescript</a> server-side meta framework that is inspired by <a href="https://nextjs.org/" target="_blank">Next.js</a> for its **file-based routing**.
+It is built on top of <a href="https://expressjs.com/" target="_blank">Express.js</a> and uses <a href="https://zod.dev/" target="_blank">Zod</a> in request / response validation as well as providing typesafe API.
 
-Zephyr places a high value on FP (Functional Programming). Instead of using classes as API controllers, declare and export functions for each file as API endpoint.
+**Zephyr** places a high value on **FP (Functional Programming)**. Instead of using classes as API controllers, declare and export API routes with functions.
 
 ## Philosophy
 
