@@ -2,7 +2,7 @@ import path from 'path';
 import { describe, expect, test } from 'vitest';
 import { extractMethod, extractPath, loadRoutes, pwd } from './routes-loader';
 
-describe('Get working directory', () => {
+describe('pwd()', () => {
   test('should return directory based on main.filename', () => {
     const main = {
       filename:
@@ -18,7 +18,7 @@ describe('Get working directory', () => {
   });
 });
 
-describe('Extract method', () => {
+describe('extractMethod()', () => {
   test('should return GET', () => {
     const file = '/Users/user/project/src/api/v1/items/get.ts';
     const method = extractMethod(file);
@@ -31,28 +31,48 @@ describe('Extract method', () => {
   });
 });
 
-describe('Extract path', () => {
+describe('extractPath()', () => {
   test('should extract path', () => {
-    const file = '/Users/user/project/src/api/v1/items/get.ts';
+    const file = '/Users/user/project/src/api/v1/todos.ts';
     const path = extractPath(file, '/Users/user/project/src/api');
-    expect(path).toEqual('/v1/items');
+    expect(path).toEqual('/v1/todos');
+  });
+
+  test('should extract index path', () => {
+    const file = '/Users/user/project/src/api/v1/todos/index.ts';
+    const path = extractPath(file, '/Users/user/project/src/api');
+    expect(path).toEqual('/v1/todos');
   });
 
   test('should format dynamic routes', () => {
-    const file = '/Users/user/project/src/api/v1/items/[itemId]/get.ts';
+    const file = '/Users/user/project/src/api/v1/items/[itemId].ts';
     const path = extractPath(file, '/Users/user/project/src/api');
     expect(path).toEqual('/v1/items/:itemId');
   });
 });
 
-describe('Load routes', () => {
-  test('should load routes from test/api directory', async () => {
+describe('loadRoutes()', () => {
+  test('should load routes from mocks/app/api directory', async () => {
     const dir = path.join(__dirname, '..', 'mocks', 'app', 'api');
     const routes = await loadRoutes(dir);
-    expect(routes).toHaveLength(1);
-    const [route] = routes;
-    expect(route.method).toBe('GET');
-    expect(route.path).toBe('/');
-    expect(route.handler).toBeDefined();
+    expect(routes).toHaveLength(3);
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'GET' && route.path === '/';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'GET' && route.path === '/todos';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'POST' && route.path === '/todos';
+      }),
+    ).to.be.true;
   });
 });

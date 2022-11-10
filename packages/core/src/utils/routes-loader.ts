@@ -1,6 +1,7 @@
-import { ZephyrRoute, ROUTE_METHODS, ZephyrHandler } from '@zephyr-js/common';
+import { ZephyrRoute, ROUTE_METHODS } from '@zephyr-js/common';
 import glob from 'glob';
 import { normalize, parse, join, dirname } from 'path';
+import { DefineRouteOptions } from '../define-route';
 
 export const pwd = (main = require.main) => {
   if (!main) {
@@ -21,21 +22,24 @@ export const extractMethod = (file: string) => {
 };
 
 export const extractPath = (file: string, dir: string) => {
-  return (
-    file
-      // Remove directory prefix
-      .split('/')
-      .slice(0, -1)
-      .join('/')
-      .replace(dir, '')
-      // Convert [param] to :param for dynamic routes
-      .replaceAll('[', ':')
-      .replaceAll(']', '') || '/'
-  );
+  file = file.replace(dir, '');
+
+  const { ext, name, base } = parse(file);
+
+  if (name === 'index') {
+    file = file.replace('/' + base, '');
+  } else {
+    file = file.replace(ext, '');
+  }
+
+  file = file.replaceAll('[', ':').replaceAll(']', '');
+
+  return file || '/';
 };
 
 export const loadRoutes = async (dir = apiDir()): Promise<ZephyrRoute[]> => {
-  const pattern = '**/{get,post,put,delete,patch}.ts';
+  const pattern = '**/*.ts';
+
   const files = glob
     .sync(pattern, {
       cwd: dir,
@@ -43,20 +47,25 @@ export const loadRoutes = async (dir = apiDir()): Promise<ZephyrRoute[]> => {
     })
     .map(normalize);
 
-  return Promise.all(
+  const routes: ZephyrRoute[] = [];
+
+  await Promise.all(
     files.map(async (file) => {
-      const route: Omit<ZephyrRoute, 'method' | 'path'> & {
-        default?: ZephyrHandler;
-      } = await import(file);
-      const handler = route.default || route.handler;
-      return {
-        ...route,
-        handler,
-        method: extractMethod(file),
-        path: extractPath(file, dir),
-        before: route.before || [],
-        after: route.after || [],
-      };
+      const methods: Record<string, DefineRouteOptions> = await import(file);
+
+      for (const method of ROUTE_METHODS) {
+        const route = methods[method.toLowerCase()];
+        if (!route) {
+          continue;
+        }
+        routes.push({
+          ...route,
+          path: extractPath(file, dir),
+          method,
+        });
+      }
     }),
   );
+
+  return routes;
 };

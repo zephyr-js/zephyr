@@ -1,6 +1,6 @@
 {
   "name": "@zephyr-js/common",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Zephyr - Functional Node.js meta framework designed to provide the best developer experience possible (@common)",
   "author": {
     "name": "KaKeng Loh",
@@ -30,7 +30,8 @@
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint --fix src",
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "pack": "npm pack"
   },
   "devDependencies": {
     "tsconfig": "workspace:*",

@@ -9,34 +9,51 @@ import {
 type ExpressApplication = ReturnType<typeof express>;
 export type ZephyrApplication = ExpressApplication;
 
-export const zephyr = async (): Promise<ZephyrApplication> => {
-  // Create express app
+export const createApp = async (): Promise<ZephyrApplication> => {
   const app = express();
+
   app.use(express.json());
 
-  // Load routes from src/api
   const routes = await loadRoutes();
 
-  // Register routes
   for (const route of routes) {
-    const { path, handler, schema } = route;
+    const {
+      path,
+      handler,
+      schema,
+      onRequest,
+      onBeforeValidate,
+      onBeforeHandle,
+      onErrorCaptured,
+      onResponse,
+    } = route;
     const method = route.method.toLowerCase() as keyof ExpressApplication;
 
     const middlewares: RequestHandler[] = [];
 
-    // Create validation middleware when schema is exported
+    if (onRequest) {
+      middlewares.push(createHandlerMiddleware(onRequest));
+    }
+
     if (schema) {
+      if (onBeforeValidate) {
+        middlewares.push(createHandlerMiddleware(onBeforeValidate));
+      }
       middlewares.push(createValidationMiddleware(schema));
     }
 
-    // Create handler middleware
-    middlewares.push(createHandlerMiddleware(handler));
+    if (onBeforeHandle) {
+      middlewares.push(createHandlerMiddleware(onBeforeHandle));
+    }
+    middlewares.push(createHandlerMiddleware(handler, onErrorCaptured));
 
-    // Register route
+    if (onResponse) {
+      middlewares.push(createHandlerMiddleware(onResponse));
+    }
+
     app[method](path, ...middlewares);
   }
 
-  // Create error middleware
   app.use(createErrorMiddleware());
 
   return app;
