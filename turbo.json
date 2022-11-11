@@ -14,10 +14,15 @@
         "^build"
       ],
       "inputs": [
-        "**/*.{ts}"
+        "**/*.ts"
       ],
       "outputs": [
         "coverage/**"
+      ]
+    },
+    "test:typecheck": {
+      "inputs": [
+        "**/*.ts"
       ]
     },
     "build": {

@@ -30,7 +30,8 @@
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint --fix src",
-    "test": "vitest run --coverage",
+    "test": "vitest --run --coverage",
+    "test:typecheck": "vitest typecheck --run",
     "build": "tsc -b",
     "pack": "npm pack"
   },
@@ -51,7 +52,7 @@
     "@types/glob": "^8.0.0",
     "tsconfig-paths": "^4.1.0",
     "nodemon": "^2.0.20",
-    "vitest": "^0.24.5",
+    "vitest": "^0.25.0",
     "supertest": "^6.3.1",
     "@types/supertest": "^2.0.12",
     "@types/express-serve-static-core": "^4.17.31",

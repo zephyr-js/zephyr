@@ -40,6 +40,9 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+      - name: Type Test
+        run: pnpm test:typecheck
         
       - uses: codecov/codecov-action@v3
         with:

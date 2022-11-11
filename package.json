@@ -24,6 +24,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:typecheck": "turbo run test:typecheck",
     "build": "turbo run build",
     "pack": "turbo run pack"
   },
