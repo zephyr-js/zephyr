@@ -11,7 +11,7 @@ export const pwd = (main = require.main) => {
 };
 
 const srcDir = () => join(pwd(), '..', 'src');
-const apiDir = () => join(srcDir(), 'api');
+const routesDir = () => join(srcDir(), 'routes');
 
 export const extractMethod = (file: string) => {
   const method = parse(file).name.toUpperCase() as ZephyrRoute['method'];
@@ -37,7 +37,7 @@ export const extractPath = (file: string, dir: string) => {
   return file || '/';
 };
 
-export const loadRoutes = async (dir = apiDir()): Promise<ZephyrRoute[]> => {
+export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
   const pattern = '**/*.ts';
 
   const files = glob
@@ -54,7 +54,7 @@ export const loadRoutes = async (dir = apiDir()): Promise<ZephyrRoute[]> => {
       const methods: Record<string, DefineRouteOptions> = await import(file);
 
       for (const method of ROUTE_METHODS) {
-        const route = methods[method.toLowerCase()];
+        const route = methods[method];
         if (!route) {
           continue;
         }

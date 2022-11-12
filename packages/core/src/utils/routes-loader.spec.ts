@@ -20,40 +20,40 @@ describe('pwd()', () => {
 
 describe('extractMethod()', () => {
   test('should return GET', () => {
-    const file = '/Users/user/project/src/api/v1/items/get.ts';
+    const file = '/Users/user/project/src/routes/v1/items/get.ts';
     const method = extractMethod(file);
     expect(method).toEqual('GET');
   });
 
   test('should throw invalid HTTP method error', () => {
-    const file = '/Users/user/project/src/api/v1/items/invalid.ts';
+    const file = '/Users/user/project/src/routes/v1/items/invalid.ts';
     expect(() => extractMethod(file)).throws('HTTP method is invalid');
   });
 });
 
 describe('extractPath()', () => {
   test('should extract path', () => {
-    const file = '/Users/user/project/src/api/v1/todos.ts';
-    const path = extractPath(file, '/Users/user/project/src/api');
+    const file = '/Users/user/project/src/routes/v1/todos.ts';
+    const path = extractPath(file, '/Users/user/project/src/routes');
     expect(path).toEqual('/v1/todos');
   });
 
   test('should extract index path', () => {
-    const file = '/Users/user/project/src/api/v1/todos/index.ts';
-    const path = extractPath(file, '/Users/user/project/src/api');
+    const file = '/Users/user/project/src/routes/v1/todos/index.ts';
+    const path = extractPath(file, '/Users/user/project/src/routes');
     expect(path).toEqual('/v1/todos');
   });
 
   test('should format dynamic routes', () => {
-    const file = '/Users/user/project/src/api/v1/items/[itemId].ts';
-    const path = extractPath(file, '/Users/user/project/src/api');
+    const file = '/Users/user/project/src/routes/v1/items/[itemId].ts';
+    const path = extractPath(file, '/Users/user/project/src/routes');
     expect(path).toEqual('/v1/items/:itemId');
   });
 });
 
 describe('loadRoutes()', () => {
-  test('should load routes from mocks/app/api directory', async () => {
-    const dir = path.join(__dirname, '..', 'mocks', 'app', 'api');
+  test('should load routes from __mocks__/app/routes directory', async () => {
+    const dir = path.join(__dirname, '..', '__mocks__', 'app', 'routes');
     const routes = await loadRoutes(dir);
     expect(routes).toHaveLength(3);
 

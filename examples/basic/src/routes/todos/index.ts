@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { Todo, TodoSchema } from '@/models/todo';
 
 // GET /todos
-export const get = defineRoute({
+export const GET = defineRoute({
   handler(req, res) {
     const todos: Todo[] = [
       {
@@ -16,7 +16,7 @@ export const get = defineRoute({
 });
 
 // POST /todos
-export const post = defineRoute({
+export const POST = defineRoute({
   schema: z.object({
     body: TodoSchema,
     response: z.object({

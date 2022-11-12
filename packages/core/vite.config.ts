@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     coverage: {
       reporter: ['text', 'json', 'html'],
-      exclude: ['src/mocks'],
+      exclude: ['src/__mocks__'],
     },
   },
 });
