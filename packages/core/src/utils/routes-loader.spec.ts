@@ -49,13 +49,26 @@ describe('extractPath()', () => {
     const path = extractPath(file, '/Users/user/project/src/routes');
     expect(path).toEqual('/v1/items/:itemId');
   });
+
+  test('should format Windows routes', () => {
+    const file =
+      'C:\\Users\\user\\project\\src\\routes\\v1\\items\\[itemId].ts';
+    const path = extractPath(file, 'C:\\Users\\user\\project\\src\\routes');
+    expect(path).toEqual('/v1/items/:itemId');
+  });
+
+  test('should format weird mixed file paths', () => {
+    const file = 'C:\\Users\\user\\project/src\\routes\\v1\\items/[itemId].ts';
+    const path = extractPath(file, 'C:\\Users\\user\\project\\src\\routes');
+    expect(path).toEqual('/v1/items/:itemId');
+  });
 });
 
 describe('loadRoutes()', () => {
   test('should load routes from __mocks__/app/routes directory', async () => {
     const dir = path.join(__dirname, '..', '__mocks__', 'app', 'routes');
     const routes = await loadRoutes(dir);
-    expect(routes).toHaveLength(3);
+    expect(routes).toHaveLength(8);
 
     expect(
       routes.some((route) => {
@@ -72,6 +85,36 @@ describe('loadRoutes()', () => {
     expect(
       routes.some((route) => {
         return route.method === 'POST' && route.path === '/todos';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'GET' && route.path === '/v1';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'GET' && route.path === '/v1/todos';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'POST' && route.path === '/v1/todos';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'GET' && route.path === '/:id';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'GET' && route.path === '/v1/:id';
       }),
     ).to.be.true;
   });

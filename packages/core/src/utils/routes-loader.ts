@@ -1,6 +1,6 @@
 import { ZephyrRoute, ROUTE_METHODS } from '@zephyr-js/common';
 import glob from 'glob';
-import { normalize, parse, join, dirname } from 'path';
+import { normalize, parse, join, dirname, relative, extname } from 'path';
 import { DefineRouteOptions } from '../define-route';
 
 export const pwd = (main = require.main) => {
@@ -22,19 +22,27 @@ export const extractMethod = (file: string) => {
 };
 
 export const extractPath = (file: string, dir: string) => {
-  file = file.replace(dir, '');
+  // Get relative file path and optionally convert Windows to Unix-style path
+  const rel = relative(dir, file).replaceAll('\\', '/');
+  const ext = extname(rel);
 
-  const { ext, name, base } = parse(file);
+  let mappedPath = rel;
 
-  if (name === 'index') {
-    file = file.replace('/' + base, '');
+  if (mappedPath.endsWith('index.ts')) {
+    mappedPath = '/' + mappedPath.replace('index.ts', '');
   } else {
-    file = file.replace(ext, '');
+    mappedPath = '/' + rel.replace(ext, '');
   }
 
-  file = file.replaceAll('[', ':').replaceAll(']', '');
+  // Convert [params] to :params
+  mappedPath = mappedPath.replaceAll('[', ':').replaceAll(']', '');
 
-  return file || '/';
+  // Remove trailing slashes
+  if (mappedPath.endsWith('/')) {
+    mappedPath = mappedPath.slice(0, mappedPath.length - 1);
+  }
+
+  return mappedPath || '/';
 };
 
 export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
@@ -51,6 +59,7 @@ export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
 
   await Promise.all(
     files.map(async (file) => {
+      const path = extractPath(file, dir);
       const methods: Record<string, DefineRouteOptions> = await import(file);
 
       for (const method of ROUTE_METHODS) {
@@ -60,7 +69,7 @@ export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
         }
         routes.push({
           ...route,
-          path: extractPath(file, dir),
+          path,
           method,
         });
       }
