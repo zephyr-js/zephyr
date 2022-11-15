@@ -103,6 +103,27 @@ importers:
       update-check: 1.5.4
       validate-npm-package-name: 5.0.0
 
+  packages/di:
+    specifiers:
+      '@types/node': ^18.11.9
+      '@vitest/coverage-c8': ^0.24.5
+      eslint-config-custom: workspace:*
+      nodemon: ^2.0.20
+      tsconfig: workspace:*
+      tsconfig-paths: ^4.1.0
+      vitest: ^0.25.0
+      zod: ^3.19.1
+    dependencies:
+      zod: 3.19.1
+    devDependencies:
+      '@types/node': 18.11.9
+      '@vitest/coverage-c8': 0.24.5
+      eslint-config-custom: link:../eslint-config-custom
+      nodemon: 2.0.20
+      tsconfig: link:../tsconfig
+      tsconfig-paths: 4.1.0
+      vitest: 0.25.1
+
   packages/eslint-config-custom:
     specifiers:
       '@typescript-eslint/eslint-plugin': ^5.42.0
