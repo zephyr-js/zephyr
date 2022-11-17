@@ -86,7 +86,7 @@ describe('loadRoutes()', () => {
     for (const { method, path } of routeAssertions) {
       expect(
         routes.some((route) => {
-          return method === 'GET' && path === '/';
+          return route.method === method && route.path === path;
         }),
       ).to.be.true;
     }
