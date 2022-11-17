@@ -70,14 +70,14 @@ describe('loadRoutes()', () => {
     const routes = await loadRoutes(dir);
 
     const routeAssertions = [
-      { method: 'GET', path: '/' },
+      { method: 'GET', path: '/:id' },
+      { method: 'POST', path: '/sum' },
       { method: 'GET', path: '/todos' },
       { method: 'POST', path: '/todos' },
       { method: 'GET', path: '/v1' },
       { method: 'GET', path: '/v1/todos' },
       { method: 'POST', path: '/v1/todos' },
-      { method: 'GET', path: '/:id' },
-      { method: 'GET', path: '/sum' },
+      { method: 'GET', path: '/v1/:id' },
       { method: 'GET', path: '/' },
     ];
 
