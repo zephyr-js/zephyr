@@ -7,8 +7,12 @@ import {
 } from './utils/middlewares';
 
 type ExpressApplication = ReturnType<typeof express>;
+
 export type ZephyrApplication = ExpressApplication;
 
+/**
+ * Creates an Express application, with routes loaded
+ */
 export const createApp = async (): Promise<ZephyrApplication> => {
   const app = express();
 

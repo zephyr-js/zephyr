@@ -37,6 +37,10 @@ export const extractPath = (file: string, dir: string) => {
   return file || '/';
 };
 
+type RouteExports = {
+  [key: string]: DefineRouteOptions;
+};
+
 export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
   const pattern = '**/*.ts';
 
@@ -51,15 +55,17 @@ export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
 
   await Promise.all(
     files.map(async (file) => {
-      const methods: Record<string, DefineRouteOptions> = await import(file);
+      const exports: RouteExports = await import(file);
 
       for (const method of ROUTE_METHODS) {
-        const route = methods[method];
-        if (!route) {
+        const exported = exports[method];
+
+        if (!exported) {
           continue;
         }
+
         routes.push({
-          ...route,
+          ...exported,
           path: extractPath(file, dir),
           method,
         });
