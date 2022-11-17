@@ -17,6 +17,7 @@
     "node_modules",
     "dist",
     "src/__mocks__",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/*.spec-d.ts"
   ]
 }
