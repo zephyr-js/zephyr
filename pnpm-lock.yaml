@@ -114,9 +114,6 @@ importers:
       tsconfig: workspace:*
       tsconfig-paths: ^4.1.0
       vitest: ^0.25.0
-      zod: ^3.19.1
-    dependencies:
-      zod: 3.19.1
     devDependencies:
       '@types/node': 18.11.9
       '@vitest/coverage-c8': 0.24.5

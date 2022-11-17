@@ -1,7 +1,7 @@
 {
   "name": "@zephyr-js/di",
   "version": "0.1.0",
-  "description": "Zephyr - Functional Node.js meta framework designed to provide the best developer experience possible (@di)",
+  "description": "Zephyr - An Express TS meta framework designed with DX in mind (@di)",
   "author": {
     "name": "KaKeng Loh",
     "email": "kakengloh@gmail.com"
@@ -34,12 +34,6 @@
     "test:typecheck": "vitest typecheck --run",
     "build": "tsc -b",
     "pack": "npm pack"
-  },
-  "dependencies": {
-    "zod": "^3.19.1"
-  },
-  "peerDependencies": {
-    "zod": "^3.19.1"
   },
   "devDependencies": {
     "tsconfig": "workspace:*",
