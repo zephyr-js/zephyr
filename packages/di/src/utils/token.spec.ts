@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { isConstructorToken, normalizeToken } from './injection-token';
+import { isConstructorToken, normalizeToken } from './token';
 
 describe('isConstructorToken()', () => {
   test('should return true if a constructor is passed', () => {
