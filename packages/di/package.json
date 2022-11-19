@@ -1,6 +1,6 @@
 {
   "name": "@zephyr-js/di",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Zephyr - An Express TS meta framework designed with DX in mind (@di)",
   "author": {
     "name": "KaKeng Loh",
@@ -31,7 +31,6 @@
     "dev": "nodemon",
     "lint": "eslint --fix src",
     "test": "vitest --run --coverage",
-    "test:typecheck": "vitest typecheck --run",
     "build": "tsc -b",
     "pack": "npm pack"
   },

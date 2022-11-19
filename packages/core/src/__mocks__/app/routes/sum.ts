@@ -1,7 +1,7 @@
-import { inject } from '@zephyr-js/di';
 import { z } from 'zod';
+import { container } from '@zephyr-js/di';
 import { defineRoute } from '../../../define-route';
-import { INJECTION_KEYS } from '../di';
+import { Calculator } from '../services/calculator';
 
 export const POST = defineRoute({
   schema: z.object({
@@ -11,7 +11,7 @@ export const POST = defineRoute({
     }),
   }),
   handler(req, res) {
-    const calculator = inject(INJECTION_KEYS.CALCULATOR);
+    const calculator = container.inject(Calculator);
     const { x, y } = req.body;
     const answer = calculator.sum(x, y);
     return res.send(answer.toString());

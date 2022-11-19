@@ -1,15 +1,13 @@
-import { provide } from '@zephyr-js/di';
+import { container } from '@zephyr-js/di';
 import supertest from 'supertest';
 import { expect, test, vi } from 'vitest';
 import { createApp } from './create-app';
 import { DefineRouteOptions } from './define-route';
 import * as routesLoader from './utils/routes-loader';
-import { INJECTION_KEYS } from './__mocks__/app/di';
+import { Calculator } from './__mocks__/app/services/calculator';
 
 test('should able to inject dependencies on route handler', async () => {
-  provide(INJECTION_KEYS.CALCULATOR, {
-    sum: (x, y) => x + y,
-  });
+  container.provide(Calculator, new Calculator());
 
   const routes = await import('./__mocks__/app/routes/sum');
 

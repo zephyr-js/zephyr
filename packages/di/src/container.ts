@@ -1,5 +1,6 @@
-import { InjectionToken, normalizeToken } from './injection-token';
+import constructor from './types/constructor';
 import { isFunction } from './utils/is-function';
+import { normalizeToken } from './utils/token';
 
 type Dependency<T> =
   | {
@@ -20,14 +21,17 @@ type Dependency<T> =
     };
 
 export function createContainer() {
-  const registry = new Map<InjectionToken<unknown>, Dependency<unknown>>();
+  const registry = new Map<
+    constructor<any> | string | symbol,
+    Dependency<unknown>
+  >();
 
   /**
    * Provide a dependency
    * @param token A unique injection token
    * @param instance An instance of the dependency
    */
-  function provide<T>(token: InjectionToken<T>, instance: T) {
+  function provide<T>(token: constructor<T> | string | symbol, instance: T) {
     const key = normalizeToken(token);
 
     registry.set(key, {
@@ -41,7 +45,10 @@ export function createContainer() {
    * @param token A unique injection token
    * @param factory A factory function that resolves the instance
    */
-  function provideLazy<T>(token: InjectionToken<T>, factory: () => T) {
+  function provideLazy<T>(
+    token: constructor<T> | string | symbol,
+    factory: () => T,
+  ) {
     const key = normalizeToken(token);
 
     registry.set(key, {
@@ -58,7 +65,7 @@ export function createContainer() {
    * @param factory An async factory function that resolves the instance
    */
   function provideAsync<T>(
-    token: InjectionToken<T>,
+    token: constructor<T> | string | symbol,
     factory: () => Promise<T>,
   ) {
     const key = normalizeToken(token);
@@ -77,8 +84,8 @@ export function createContainer() {
    * @param defaultValue A default value that will be returned if dependency is not provided
    * @returns Instance of the dependency
    */
-  function inject<T>(
-    token: InjectionToken<T>,
+  function inject<T = any>(
+    token: constructor<T> | string | symbol,
     defaultValue?: T | (() => T),
   ): T {
     const key = normalizeToken(token);
@@ -119,7 +126,7 @@ export function createContainer() {
    * @returns Promise of the dependency instance
    */
   async function injectAsync<T>(
-    token: InjectionToken<T>,
+    token: constructor<T> | string | symbol,
     defaultValue?: () => Promise<T>,
   ): Promise<T> {
     const key = normalizeToken(token);
@@ -158,7 +165,7 @@ export function createContainer() {
    * @param token A unique injection token
    * @returns `true` if dependency is provided, else `false`
    */
-  function isProvided<T>(key: InjectionToken<T>): boolean {
+  function isProvided<T>(key: constructor<T> | string | symbol): boolean {
     return registry.has(key);
   }
 
