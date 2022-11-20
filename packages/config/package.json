@@ -35,7 +35,8 @@
     "pack": "npm pack"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "tsconfig": "workspace:*",

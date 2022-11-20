@@ -39,8 +39,10 @@ importers:
       tsconfig: workspace:*
       tsconfig-paths: ^4.1.0
       vitest: ^0.25.0
+      zod: ^3.19.1
     dependencies:
       dotenv: 16.0.3
+      zod: 3.19.1
     devDependencies:
       '@types/dotenv': 8.2.0
       '@types/node': 18.11.9
