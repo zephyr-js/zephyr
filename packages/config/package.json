@@ -31,7 +31,6 @@
     "dev": "nodemon",
     "lint": "eslint --fix src",
     "test": "vitest --run --coverage",
-    "test:typecheck": "vitest typecheck --run",
     "build": "tsc -b",
     "pack": "npm pack"
   },

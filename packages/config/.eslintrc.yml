@@ -1,2 +1,4 @@
 root: true
 extends: custom
+rules:
+  '@typescript-eslint/no-var-requires': 0
