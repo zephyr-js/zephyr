@@ -4,6 +4,7 @@
     "packages/core",
     "packages/common",
     "packages/di",
+    "packages/config",
     "packages/create-zephyr-app",
   ],
   "json.schemas": [

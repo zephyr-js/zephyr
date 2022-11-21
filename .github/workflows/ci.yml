@@ -55,3 +55,9 @@ jobs:
         with:
           flags: di
           files: ./packages/di/coverage/coverage-final.json
+
+      - name: Upload `config` coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: config
+          files: ./packages/config/coverage/coverage-final.json

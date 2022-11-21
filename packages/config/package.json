@@ -1,0 +1,54 @@
+{
+  "name": "@zephyr-js/config",
+  "version": "0.1.0",
+  "description": "Zephyr - An Express TS meta framework designed with DX in mind (@config)",
+  "author": {
+    "name": "KaKeng Loh",
+    "email": "kakengloh@gmail.com"
+  },
+  "homepage": "https://github.com/zephyr-js/zephyr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zephyr-js/zephyr",
+    "directory": "packages/config"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "express",
+    "zephyr",
+    "zephyr.js"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "nodemon",
+    "lint": "eslint --fix src",
+    "test": "vitest --run --coverage",
+    "build": "tsc -b",
+    "pack": "npm pack"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "zod": "^3.19.1"
+  },
+  "peerDependencies": {
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "eslint-config-custom": "workspace:*",
+    "@types/node": "^18.11.9",
+    "tsconfig-paths": "^4.1.0",
+    "nodemon": "^2.0.20",
+    "vitest": "^0.25.0",
+    "@vitest/coverage-c8": "^0.24.5",
+    "@types/dotenv": "^8.2.0"
+  }
+}
