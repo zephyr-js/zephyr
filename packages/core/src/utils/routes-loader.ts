@@ -1,47 +1,47 @@
 import { ZephyrRoute, ROUTE_METHODS } from '@zephyr-js/common';
 import glob from 'glob';
-import { normalize, parse, join, dirname } from 'path';
+import { normalize, relative, extname, join } from 'path';
 import { DefineRouteOptions } from '../define-route';
 
-export const pwd = (main = require.main) => {
-  if (!main) {
-    throw new Error('`main` not found');
-  }
-  return dirname(main.filename);
-};
+export function extractPath(file: string, dir: string) {
+  // Convert Windows to Unix path
+  file = file.replace(new RegExp('\\\\', 'g'), '/');
+  dir = dir.replace(new RegExp('\\\\', 'g'), '/');
 
-const srcDir = () => join(pwd(), '..', 'src');
-const routesDir = () => join(srcDir(), 'routes');
+  // Get relative file path
+  let path = relative(dir, file);
 
-export const extractMethod = (file: string) => {
-  const method = parse(file).name.toUpperCase() as ZephyrRoute['method'];
-  if (!ROUTE_METHODS.includes(method)) {
-    throw new Error('HTTP method is invalid');
-  }
-  return method;
-};
+  // Handle index path
+  path = path.replace(new RegExp('index.ts' + '$'), '');
 
-export const extractPath = (file: string, dir: string) => {
-  file = file.replace(dir, '');
+  // Remove file extension
+  path = path.replace(new RegExp(extname(path) + '$'), '');
 
-  const { ext, name, base } = parse(file);
+  // Convert [params] to :params
+  path = path.replaceAll('[', ':').replaceAll(']', '');
 
-  if (name === 'index') {
-    file = file.replace('/' + base, '');
-  } else {
-    file = file.replace(ext, '');
-  }
+  // Remove trailing slashes
+  path = path.replace(/\/+$/, '');
 
-  file = file.replaceAll('[', ':').replaceAll(']', '');
+  // Add leading slash
+  path = '/' + path;
 
-  return file || '/';
-};
+  return path;
+}
 
 type RouteExports = {
-  [key: string]: DefineRouteOptions;
+  [key: string]: (deps: object) => DefineRouteOptions;
 };
 
-export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
+interface LoadRoutesOptions {
+  dir?: string;
+  dependencies?: object;
+}
+
+export async function loadRoutes({
+  dir = join(process.cwd(), 'src', 'routes'),
+  dependencies = {},
+}: LoadRoutesOptions = {}): Promise<ZephyrRoute[]> {
   const pattern = '**/*.ts';
 
   const files = glob
@@ -60,12 +60,12 @@ export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
       for (const method of ROUTE_METHODS) {
         const exported = exports[method];
 
-        if (!exported) {
+        if (!exported || typeof exported !== 'function') {
           continue;
         }
 
         routes.push({
-          ...exported,
+          ...exported(dependencies),
           path: extractPath(file, dir),
           method,
         });
@@ -74,4 +74,4 @@ export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
   );
 
   return routes;
-};
+}

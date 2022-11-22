@@ -12,7 +12,7 @@ import { ZephyrHandler } from '@zephyr-js/common';
 describe('createHandlerMiddleware()', () => {
   let app: ReturnType<typeof express>;
 
-  beforeAll(() => {
+  test('should return 200', async () => {
     const handler: RequestHandler = async (_, res) => {
       return res.send('OK');
     };
@@ -20,11 +20,35 @@ describe('createHandlerMiddleware()', () => {
 
     app = express();
     app.get('/', handlerMiddleware);
-  });
 
-  test('should return 200', async () => {
     const response = await supertest(app).get('/').expect(200);
     expect(response.text).toBe('OK');
+  });
+
+  test('should assign body to res.send when string is returned', async () => {
+    const handler: RequestHandler = () => {
+      return 'OK';
+    };
+    const handlerMiddleware = createHandlerMiddleware(handler as ZephyrHandler);
+
+    app = express();
+    app.get('/', handlerMiddleware);
+
+    const response = await supertest(app).get('/').expect(200);
+    expect(response.text).toBe('OK');
+  });
+
+  test('should assign body to res.json when object is returned', async () => {
+    const handler: RequestHandler = () => {
+      return { foo: 'bar' };
+    };
+    const handlerMiddleware = createHandlerMiddleware(handler as ZephyrHandler);
+
+    app = express();
+    app.get('/', handlerMiddleware);
+
+    const response = await supertest(app).get('/').expect(200);
+    expect(response.body).to.deep.equals({ foo: 'bar' });
   });
 });
 
