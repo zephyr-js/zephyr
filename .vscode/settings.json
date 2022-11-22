@@ -3,7 +3,8 @@
   "eslint.workingDirectories": [
     "packages/core",
     "packages/common",
-    "packages/cli",
+    "packages/di",
+    "packages/config",
     "packages/create-zephyr-app",
   ],
   "json.schemas": [

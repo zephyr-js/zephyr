@@ -9,8 +9,8 @@
     "lint": "zephyr lint"
   },
   "dependencies": {
-    "@zephyr-js/core": "0.2.0",
-    "@zephyr-js/common": "0.2.0"
+    "@zephyr-js/core": "0.2.3",
+    "@zephyr-js/common": "0.2.1"
   },
   "devDependencies": {
     "@types/node": "18.11.9",

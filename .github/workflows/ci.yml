@@ -44,6 +44,20 @@ jobs:
       - name: Type Test
         run: pnpm test:typecheck
         
-      - uses: codecov/codecov-action@v3
+      - name: Upload `core` coverage to Codecov
+        uses: codecov/codecov-action@v3
         with:
+          flags: core
           files: ./packages/core/coverage/coverage-final.json
+
+      - name: Upload `di` coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: di
+          files: ./packages/di/coverage/coverage-final.json
+
+      - name: Upload `config` coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: config
+          files: ./packages/config/coverage/coverage-final.json

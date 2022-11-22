@@ -5,7 +5,7 @@
 **npm**
 
 ```bash
-npx create-zephyr-app@latest <app-name>
+npm create zephyr-app <app-name>
 ```
 
 **yarn**

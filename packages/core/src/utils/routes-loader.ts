@@ -1,43 +1,47 @@
 import { ZephyrRoute, ROUTE_METHODS } from '@zephyr-js/common';
 import glob from 'glob';
-import { normalize, parse, join, dirname } from 'path';
+import { normalize, relative, extname, join } from 'path';
 import { DefineRouteOptions } from '../define-route';
 
-export const pwd = (main = require.main) => {
-  if (!main) {
-    throw new Error('`main` not found');
-  }
-  return dirname(main.filename);
+export function extractPath(file: string, dir: string) {
+  // Convert Windows to Unix path
+  file = file.replace(new RegExp('\\\\', 'g'), '/');
+  dir = dir.replace(new RegExp('\\\\', 'g'), '/');
+
+  // Get relative file path
+  let path = relative(dir, file);
+
+  // Handle index path
+  path = path.replace(new RegExp('index.ts' + '$'), '');
+
+  // Remove file extension
+  path = path.replace(new RegExp(extname(path) + '$'), '');
+
+  // Convert [params] to :params
+  path = path.replaceAll('[', ':').replaceAll(']', '');
+
+  // Remove trailing slashes
+  path = path.replace(/\/+$/, '');
+
+  // Add leading slash
+  path = '/' + path;
+
+  return path;
+}
+
+type RouteExports = {
+  [key: string]: (deps: object) => DefineRouteOptions;
 };
 
-const srcDir = () => join(pwd(), '..', 'src');
-const routesDir = () => join(srcDir(), 'routes');
+interface LoadRoutesOptions {
+  dir?: string;
+  dependencies?: object;
+}
 
-export const extractMethod = (file: string) => {
-  const method = parse(file).name.toUpperCase() as ZephyrRoute['method'];
-  if (!ROUTE_METHODS.includes(method)) {
-    throw new Error('HTTP method is invalid');
-  }
-  return method;
-};
-
-export const extractPath = (file: string, dir: string) => {
-  file = file.replace(dir, '');
-
-  const { ext, name, base } = parse(file);
-
-  if (name === 'index') {
-    file = file.replace('/' + base, '');
-  } else {
-    file = file.replace(ext, '');
-  }
-
-  file = file.replaceAll('[', ':').replaceAll(']', '');
-
-  return file || '/';
-};
-
-export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
+export async function loadRoutes({
+  dir = join(process.cwd(), 'src', 'routes'),
+  dependencies = {},
+}: LoadRoutesOptions = {}): Promise<ZephyrRoute[]> {
   const pattern = '**/*.ts';
 
   const files = glob
@@ -51,15 +55,17 @@ export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
 
   await Promise.all(
     files.map(async (file) => {
-      const methods: Record<string, DefineRouteOptions> = await import(file);
+      const exports: RouteExports = await import(file);
 
       for (const method of ROUTE_METHODS) {
-        const route = methods[method];
-        if (!route) {
+        const exported = exports[method];
+
+        if (!exported || typeof exported !== 'function') {
           continue;
         }
+
         routes.push({
-          ...route,
+          ...exported(dependencies),
           path: extractPath(file, dir),
           method,
         });
@@ -68,4 +74,4 @@ export const loadRoutes = async (dir = routesDir()): Promise<ZephyrRoute[]> => {
   );
 
   return routes;
-};
+}

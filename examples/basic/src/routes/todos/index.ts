@@ -3,28 +3,32 @@ import { z } from 'zod';
 import { Todo, TodoSchema } from '@/models/todo';
 
 // GET /todos
-export const GET = defineRoute({
-  handler(req, res) {
-    const todos: Todo[] = [
-      {
-        name: 'Workout',
-        status: 'doing',
-      },
-    ];
-    res.json({ todos });
-  },
-});
+export function GET() {
+  return defineRoute({
+    handler(req, res) {
+      const todos: Todo[] = [
+        {
+          name: 'Workout',
+          status: 'doing',
+        },
+      ];
+      return { todos };
+    },
+  });
+}
 
 // POST /todos
-export const POST = defineRoute({
-  schema: z.object({
-    body: TodoSchema,
-    response: z.object({
-      todo: TodoSchema,
+export function POST() {
+  return defineRoute({
+    schema: z.object({
+      body: TodoSchema,
+      response: z.object({
+        todo: TodoSchema,
+      }),
     }),
-  }),
-  handler(req, res) {
-    const todo: Todo = req.body;
-    res.json({ todo });
-  },
-});
+    handler(req, res) {
+      const todo: Todo = req.body;
+      return { todo };
+    },
+  });
+}
