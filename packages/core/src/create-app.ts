@@ -10,15 +10,21 @@ type ExpressApplication = ReturnType<typeof express>;
 
 export type ZephyrApplication = ExpressApplication;
 
+export interface CreateAppOptions<TDependencies = object> {
+  dependencies?: TDependencies;
+}
+
 /**
  * Creates an Express application, with routes loaded
  */
-export const createApp = async (): Promise<ZephyrApplication> => {
+export async function createApp<TDependencies extends object = object>({
+  dependencies = Object.create(null),
+}: CreateAppOptions<TDependencies> = {}): Promise<ZephyrApplication> {
   const app = express();
 
   app.use(express.json());
 
-  const routes = await loadRoutes();
+  const routes = await loadRoutes({ dependencies });
 
   for (const route of routes) {
     const {
@@ -61,4 +67,4 @@ export const createApp = async (): Promise<ZephyrApplication> => {
   app.use(createErrorMiddleware());
 
   return app;
-};
+}

@@ -7,7 +7,7 @@ export type ZephyrHandler<
 > = (
   req: ZephyrRequest<TRequest>,
   res: ZephyrResponse<TResponse>,
-) => any | Promise<any>;
+) => TResponse | Promise<TResponse> | undefined | Promise<undefined>;
 
 export type ZephyrHandlerWithError<
   TRequest extends ZephyrBaseRequest = any,
@@ -17,4 +17,4 @@ export type ZephyrHandlerWithError<
   req: ZephyrRequest<TRequest, TResponse>,
   res: ZephyrResponse<TResponse>,
   err: TError,
-) => any | Promise<any>;
+) => TResponse | Promise<TResponse> | undefined | Promise<undefined>;

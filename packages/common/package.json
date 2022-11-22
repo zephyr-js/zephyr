@@ -1,6 +1,6 @@
 {
   "name": "@zephyr-js/common",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Zephyr - Zephyr - An Express TS meta framework designed with DX in mind (@common)",
   "author": {
     "name": "KaKeng Loh",

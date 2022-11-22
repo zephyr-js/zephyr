@@ -6,6 +6,7 @@ import {
   ZephyrResponse,
 } from '@zephyr-js/common';
 import { ErrorRequestHandler, RequestHandler } from 'express';
+import { ServerResponse } from 'http';
 import { AnyZodObject } from 'zod';
 import { isValidationError } from './common';
 
@@ -15,7 +16,19 @@ export const createHandlerMiddleware = (
 ): RequestHandler => {
   return async (req, res, next) => {
     try {
-      await handler(req, res);
+      const body = await handler(req, res);
+      if (body && !(body instanceof ServerResponse) && !res.headersSent) {
+        switch (typeof body) {
+        case 'string': {
+          res.send(body);
+          break;
+        }
+        case 'object': {
+          res.json(body);
+          break;
+        }
+        }
+      }
     } catch (err) {
       if (onErrorCaptured) {
         console.error(err);
