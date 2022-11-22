@@ -1,6 +1,6 @@
 {
   "name": "create-zephyr-app",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Create Zephyr powered Express TS applications with one command",
   "author": {
     "name": "KaKeng Loh",
