@@ -4,10 +4,10 @@ import {
   ZephyrHandler,
   ZephyrRequest,
   ZephyrResponse,
+  ZephyrRouteSchema,
 } from '@zephyr-js/common';
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { ServerResponse } from 'http';
-import { AnyZodObject } from 'zod';
 import { isValidationError } from './common';
 
 export const createHandlerMiddleware = (
@@ -42,7 +42,7 @@ export const createHandlerMiddleware = (
 };
 
 export const createValidationMiddleware = (
-  schema: AnyZodObject,
+  schema: ZephyrRouteSchema,
 ): RequestHandler => {
   return (req, _, next) => {
     try {
