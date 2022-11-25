@@ -26,30 +26,27 @@ describe('loadRoutes()', () => {
   test('should load routes from __mocks__/app/routes directory', async () => {
     const dir = path.join(__dirname, '..', '__mocks__', 'app', 'routes');
     const routes = await loadRoutes({ dir });
-    expect(routes).toHaveLength(4);
 
-    expect(
-      routes.some((route) => {
-        return route.method === 'GET' && route.path === '/';
-      }),
-    ).to.be.true;
+    const routeAssertions = [
+      { method: 'GET', path: '/:id' },
+      { method: 'POST', path: '/sum' },
+      { method: 'GET', path: '/todos' },
+      { method: 'POST', path: '/todos' },
+      { method: 'GET', path: '/v1' },
+      { method: 'GET', path: '/v1/todos' },
+      { method: 'POST', path: '/v1/todos' },
+      { method: 'GET', path: '/v1/:id' },
+      { method: 'GET', path: '/' },
+    ];
 
-    expect(
-      routes.some((route) => {
-        return route.method === 'GET' && route.path === '/todos';
-      }),
-    ).to.be.true;
+    expect(routes).toHaveLength(routeAssertions.length);
 
-    expect(
-      routes.some((route) => {
-        return route.method === 'POST' && route.path === '/todos';
-      }),
-    ).to.be.true;
-
-    expect(
-      routes.some((route) => {
-        return route.method === 'POST' && route.path === '/sum';
-      }),
-    ).to.be.true;
+    for (const { method, path } of routeAssertions) {
+      expect(
+        routes.some((route) => {
+          return route.method === method && route.path === path;
+        }),
+      ).to.be.true;
+    }
   });
 });
