@@ -8,6 +8,8 @@ import {
   vi,
 } from 'vitest';
 import path from 'path';
+import fs from 'fs';
+import yaml from 'yaml';
 import {
   getConfigFilePath,
   getEnvFilePath,
@@ -142,6 +144,10 @@ describe('load()', () => {
     );
   });
 
+  test('should throw error when config file not exists (default)', () => {
+    expect(() => load()).toThrow('Config file not found at path: \'null\'');
+  });
+
   test('should load config from file and validate it', () => {
     const config = load({
       path: path.join(
@@ -169,24 +175,42 @@ describe('load()', () => {
       },
     });
   });
+
+  test('should parse YAML when file ends with .yml', () => {
+    const yamlParseSpy = vi.spyOn(yaml, 'parse');
+    const config = load({
+      path: path.join(__dirname, '__mocks__', 'app', 'config', 'basic.yml'),
+    });
+    expect(yamlParseSpy).toHaveBeenCalledOnce();
+    expect(config).to.deep.equals({ port: 3000 });
+    vi.restoreAllMocks();
+  });
 });
 
 describe('getConfigFilePath()', () => {
   test('should return correct config file path with current environment (test)', () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
+
     expect(getConfigFilePath()).toEqual(
-      path.join(__dirname, '..', 'config', 'test.json'),
+      path.join(__dirname, '..', 'config', 'test.yml'),
     );
   });
 
-  test('should return correct config file path with default environment (development)', () => {
+  test('should return null', () => {
     process.env.NODE_ENV = undefined;
+    expect(getConfigFilePath()).toBeNull();
+  });
+
+  test('should return correct config file path', () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
+
     expect(getConfigFilePath()).toEqual(
-      path.join(__dirname, '..', 'config', 'development.json'),
+      path.join(__dirname, '..', 'config', 'development.yml'),
     );
   });
 });
 
-describe('getConfigFilePath()', () => {
+describe('getEnvFilePath()', () => {
   test('should return correct .env file path', () => {
     vi.spyOn(process, 'cwd').mockReturnValue(
       path.join(__dirname, '__mocks__', 'app'),

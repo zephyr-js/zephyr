@@ -1,14 +1,8 @@
-import express, { RequestHandler } from 'express';
+import express from 'express';
 import { loadRoutes } from './utils/routes-loader';
-import {
-  createErrorMiddleware,
-  createHandlerMiddleware,
-  createValidationMiddleware,
-} from './utils/middlewares';
+import { createRouter } from './create-router';
 
-type ExpressApplication = ReturnType<typeof express>;
-
-export type ZephyrApplication = ExpressApplication;
+export type ZephyrApplication = ReturnType<typeof express>;
 
 export interface CreateAppOptions<TDependencies = object> {
   dependencies?: TDependencies;
@@ -26,45 +20,9 @@ export async function createApp<TDependencies extends object = object>({
 
   const routes = await loadRoutes({ dependencies });
 
-  for (const route of routes) {
-    const {
-      path,
-      handler,
-      schema,
-      onRequest,
-      onBeforeValidate,
-      onBeforeHandle,
-      onErrorCaptured,
-      onResponse,
-    } = route;
-    const method = route.method.toLowerCase() as keyof ExpressApplication;
+  const router = createRouter(routes);
 
-    const middlewares: RequestHandler[] = [];
-
-    if (onRequest) {
-      middlewares.push(createHandlerMiddleware(onRequest));
-    }
-
-    if (schema) {
-      if (onBeforeValidate) {
-        middlewares.push(createHandlerMiddleware(onBeforeValidate));
-      }
-      middlewares.push(createValidationMiddleware(schema));
-    }
-
-    if (onBeforeHandle) {
-      middlewares.push(createHandlerMiddleware(onBeforeHandle));
-    }
-    middlewares.push(createHandlerMiddleware(handler, onErrorCaptured));
-
-    if (onResponse) {
-      middlewares.push(createHandlerMiddleware(onResponse));
-    }
-
-    app[method](path, ...middlewares);
-  }
-
-  app.use(createErrorMiddleware());
+  app.use(router);
 
   return app;
 }

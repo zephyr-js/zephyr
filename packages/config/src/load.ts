@@ -1,8 +1,9 @@
-import { existsSync, readFileSync } from 'fs';
+import fs from 'fs';
 import { AnyZodObject } from 'zod';
+import yaml from 'yaml';
 
 export interface LoadOptions {
-  path?: string;
+  path?: string | null;
   variables?: object;
   dotenv?: boolean;
   schema?: AnyZodObject;
@@ -10,8 +11,17 @@ export interface LoadOptions {
 
 export function getConfigFilePath(
   env: string = process.env.NODE_ENV || 'development',
-): string {
-  return `${process.cwd()}/config/${env}.json`;
+): string | null {
+  const file = `${process.cwd()}/config/${env}`;
+  const extensions = ['.yml', '.yaml', '.json'];
+
+  for (const extension of extensions) {
+    if (fs.existsSync(file + extension)) {
+      return file + extension;
+    }
+  }
+
+  return null;
 }
 
 export function getEnvFilePath(): string {
@@ -43,7 +53,7 @@ export function load<T extends object>({
   dotenv = true,
   schema,
 }: LoadOptions = {}): T {
-  if (!existsSync(path)) {
+  if (path === null || !fs.existsSync(path)) {
     throw new Error(`Config file not found at path: '${path}'`);
   }
 
@@ -57,9 +67,11 @@ export function load<T extends object>({
     };
   }
 
-  const content = parseVariables(readFileSync(path, 'utf-8'), variables);
+  const content = parseVariables(fs.readFileSync(path, 'utf-8'), variables);
 
-  const config = JSON.parse(content);
+  const config = path.endsWith('.json')
+    ? JSON.parse(content)
+    : yaml.parse(content);
 
   if (schema) {
     validateConfig(schema, config);
