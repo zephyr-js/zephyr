@@ -181,7 +181,7 @@ export async function main() {
     'Copying project files...',
   );
 
-  // const hash = args.commit ? `#${args.commit}` : '';
+  const hash = args.commit ? `#${args.commit}` : '';
 
   // const isThirdParty = options.template.includes('/');
   // const templateTarget = isThirdParty
@@ -191,7 +191,6 @@ export async function main() {
   // Copy
   if (!args.dryRun) {
     const templateTarget = 'zephyr-js/zephyr/examples/basic';
-    const hash = '';
 
     try {
       await downloadTemplate(`${templateTarget}${hash}`, {
