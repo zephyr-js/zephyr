@@ -158,38 +158,41 @@ export async function main() {
     process.exit(1);
   }
 
-  const options = await prompts(
-    [
-      {
-        type: 'select',
-        name: 'template',
-        message: 'How would you like to setup your new project?',
-        choices: TEMPLATES,
-      },
-    ],
-    {
-      onCancel: () => ora().info(dim('Operation cancelled. See you later!')),
-    },
-  );
+  // const options = await prompts(
+  //   [
+  //     {
+  //       type: 'select',
+  //       name: 'template',
+  //       message: 'How would you like to setup your new project?',
+  //       choices: TEMPLATES,
+  //     },
+  //   ],
+  //   {
+  //     onCancel: () => ora().info(dim('Operation cancelled. See you later!')),
+  //   },
+  // );
 
-  if (!options.template || options.template === true) {
-    ora().info(dim('No template provided. See you later!'));
-    process.exit(1);
-  }
+  // if (!options.template || options.template === true) {
+  //   ora().info(dim('No template provided. See you later!'));
+  //   process.exit(1);
+  // }
 
   const templateSpinner = await loadWithRocketGradient(
     'Copying project files...',
   );
 
-  const hash = args.commit ? `#${args.commit}` : '';
+  // const hash = args.commit ? `#${args.commit}` : '';
 
-  const isThirdParty = options.template.includes('/');
-  const templateTarget = isThirdParty
-    ? options.template
-    : `zephyr-js/zephyr/examples/${options.template}#latest`;
+  // const isThirdParty = options.template.includes('/');
+  // const templateTarget = isThirdParty
+  //   ? options.template
+  //   : `zephyr-js/zephyr/examples/${options.template}#latest`;
 
   // Copy
   if (!args.dryRun) {
+    const templateTarget = 'zephyr-js/zephyr/examples/basic';
+    const hash = '';
+
     try {
       await downloadTemplate(`${templateTarget}${hash}`, {
         force: true,
@@ -199,13 +202,14 @@ export async function main() {
       });
     } catch (err: any) {
       fs.rmdirSync(cwd);
-      if (err.message.includes('404')) {
-        console.error(
-          `Template ${color.underline(options.template)} does not exist!`,
-        );
-      } else {
-        console.error(err.message);
-      }
+      // if (err.message.includes('404')) {
+      //   console.error(
+      //     `Template ${color.underline(options.template)} does not exist!`,
+      //   );
+      // } else {
+      //   console.error(err.message);
+      // }
+      console.error(err.message);
       process.exit(1);
     }
 

@@ -30,11 +30,11 @@
   ],
   "scripts": {
     "lint": "eslint --fix src",
-    "dev": "ncc build src/index.ts -w -o dist && cp -R src/templates dist/templates",
-    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register && cp -R src/templates dist/templates"
+    "dev": "ncc build src/index.ts -w -o dist",
+    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register"
   },
   "dependencies": {
-    "@astrojs/cli-kit": "^0.1.4",
+    "@astrojs/cli-kit": "^0.1.5",
     "chalk": "^5.0.1",
     "comment-json": "^4.2.3",
     "execa": "^6.1.0",
