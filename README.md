@@ -41,6 +41,5 @@ Kindly visit our documentation on [zephyrjs.com](https://zephyrjs.com/)
 - [x] Complete `create-zephyr-app`
 - [x] Publish `@zephyr-js/core`, `@zephyr-js/common` and `create-zephyr-app` to [NPM](https://www.npmjs.com/)
 - [x] Create unit tests
-- [ ] Supports middleware
-- [ ] Supports dependency injection
+- [x] Supports dependency injection
 - [ ] Create `zephyr` cli
