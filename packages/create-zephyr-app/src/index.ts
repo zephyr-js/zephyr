@@ -1,5 +1,5 @@
-import { color, generateProjectName, label, say } from '@astrojs/cli-kit';
-import { forceUnicode, random } from '@astrojs/cli-kit/utils';
+import { color, generateProjectName, label, say } from '@/lib/cli-kit';
+import { forceUnicode, random } from '@/lib/cli-kit/utils';
 import { assign, parse, stringify } from 'comment-json';
 import { execa, execaCommand } from 'execa';
 import fs from 'fs';
@@ -384,3 +384,8 @@ export async function main() {
 function emojiWithFallback(char: string, fallback: string) {
   return process.platform !== 'win32' ? char : fallback;
 }
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

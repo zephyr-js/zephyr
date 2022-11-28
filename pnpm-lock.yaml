@@ -96,7 +96,6 @@ importers:
 
   packages/create-zephyr-app:
     specifiers:
-      '@astrojs/cli-kit': ^0.1.5
       '@types/node': ^18.11.9
       '@types/prompts': ^2.0.14
       '@types/which-pm-runs': ^1.0.0
@@ -108,21 +107,25 @@ importers:
       execa: ^6.1.0
       giget: ^0.1.7
       kleur: ^4.1.4
+      log-update: ^5.0.1
       ora: ^6.1.0
       prompts: ^2.4.2
+      sisteransi: ^1.0.5
       strip-ansi: ^7.0.1
       tsconfig: workspace:*
+      tsconfig-paths: ^4.1.0
       which-pm-runs: ^1.1.0
       yargs-parser: ^21.0.1
     dependencies:
-      '@astrojs/cli-kit': 0.1.5
       chalk: 5.1.2
       comment-json: 4.2.3
       execa: 6.1.0
       giget: 0.1.7
       kleur: 4.1.5
+      log-update: 5.0.1
       ora: 6.1.2
       prompts: 2.4.2
+      sisteransi: 1.0.5
       strip-ansi: 7.0.1
       which-pm-runs: 1.1.0
       yargs-parser: 21.1.1
@@ -134,6 +137,7 @@ importers:
       '@vercel/ncc': 0.34.0
       eslint-config-custom: link:../eslint-config-custom
       tsconfig: link:../tsconfig
+      tsconfig-paths: 4.1.0
 
   packages/di:
     specifiers:
@@ -177,14 +181,6 @@ importers:
     specifiers: {}
 
 packages:
-
-  /@astrojs/cli-kit/0.1.5:
-    resolution: {integrity: sha512-i0eYbGvg6pTz2A5bsMd5QnBTqA7WusXu4YUYzV2x6uPKkiO62TZK1aPK/llGaKaYC3riCVP/qahOK5v/lsrkdA==}
-    dependencies:
-      chalk: 5.1.2
-      log-update: 5.0.1
-      sisteransi: 1.0.5
-    dev: false
 
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}

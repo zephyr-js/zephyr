@@ -1,5 +1,5 @@
-import { color, label } from '@astrojs/cli-kit';
-import { sleep } from '@astrojs/cli-kit/utils';
+import { color, label } from '@/lib/cli-kit';
+import { sleep } from '@/lib/cli-kit/utils';
 import { exec } from 'node:child_process';
 import { get } from 'node:https';
 import stripAnsi from 'strip-ansi';
