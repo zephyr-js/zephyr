@@ -1,10 +1,9 @@
 import { color, generateProjectName, label, say } from '@/lib/cli-kit';
 import { forceUnicode, random } from '@/lib/cli-kit/utils';
-import { assign, parse, stringify } from 'comment-json';
 import { execa, execaCommand } from 'execa';
 import fs from 'fs';
 import { downloadTemplate } from 'giget';
-import { bold, dim, green, reset, yellow } from 'kleur/colors';
+import { bold, dim, green, reset } from 'kleur/colors';
 import ora from 'ora';
 import path from 'path';
 import prompts from 'prompts';
@@ -18,10 +17,8 @@ import {
   getVersion,
   info,
   nextSteps,
-  typescriptByDefault,
   welcome,
 } from './messages';
-import { TEMPLATES } from './templates';
 
 // NOTE: In the v7.x version of npm, the default behavior of `npm init` was changed
 // to no longer require `--` to pass args and instead pass `--` directly to us. This
@@ -305,70 +302,8 @@ async function main() {
     );
   }
 
-  const tsResponse = await prompts(
-    {
-      type: 'select',
-      name: 'typescript',
-      message: 'How would you like to setup TypeScript?',
-      choices: [
-        { value: 'strict', title: 'Strict', description: '(recommended)' },
-        { value: 'strictest', title: 'Strictest' },
-        { value: 'base', title: 'Relaxed' },
-        { value: 'unsure', title: 'Help me choose' },
-      ],
-    },
-    {
-      onCancel: () => {
-        ora().info(
-          dim(
-            'Operation cancelled. Your project folder has been created but no TypeScript configuration file was created.',
-          ),
-        );
-        process.exit(1);
-      },
-    },
-  );
-
-  if (tsResponse.typescript === 'unsure') {
-    await typescriptByDefault();
-    tsResponse.typescript = 'base';
-  }
   if (args.dryRun) {
     ora().info(dim('--dry-run enabled, skipping.'));
-  } else if (tsResponse.typescript) {
-    const templateTSConfigPath = path.join(cwd, 'tsconfig.json');
-    fs.readFile(templateTSConfigPath, (err, data) => {
-      if (err && err.code === 'ENOENT') {
-        // If the template doesn't have a tsconfig.json, let's add one instead
-        fs.writeFileSync(
-          templateTSConfigPath,
-          stringify(
-            { extends: `astro/tsconfigs/${tsResponse.typescript}` },
-            null,
-            2,
-          ),
-        );
-
-        return;
-      }
-
-      const templateTSConfig = parse(data.toString());
-
-      if (templateTSConfig && typeof templateTSConfig === 'object') {
-        const result = assign(templateTSConfig, {
-          extends: `astro/tsconfigs/${tsResponse.typescript}`,
-        });
-
-        fs.writeFileSync(templateTSConfigPath, stringify(result, null, 2));
-      } else {
-        console.log(
-          yellow(
-            'There was an error applying the requested TypeScript settings. This could be because the template\'s tsconfig.json is malformed',
-          ),
-        );
-      }
-    });
-    ora().succeed('TypeScript settings applied!');
   }
 
   const projectDir = path.relative(process.cwd(), cwd);
