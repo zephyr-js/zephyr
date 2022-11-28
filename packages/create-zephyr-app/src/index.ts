@@ -93,8 +93,7 @@ const FILES_TO_REMOVE = [
   'CHANGELOG.md',
 ]; // some files are only needed for online editors when using astro.new. Remove for create-astro installs.
 
-// Please also update the installation instructions in the docs at https://github.com/zephyr-js/docs/blob/main/src/pages/en/install/auto.md if you make any changes to the flow or wording here.
-export async function main() {
+async function main() {
   const pkgManager = detectPackageManager()?.name || 'npm';
   const [username, version] = await Promise.all([getName(), getVersion()]);
 
