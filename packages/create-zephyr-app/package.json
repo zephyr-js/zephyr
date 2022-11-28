@@ -1,6 +1,6 @@
 {
   "name": "create-zephyr-app",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Create Zephyr powered Express TS applications with one command",
   "author": {
     "name": "KaKeng Loh",
@@ -30,26 +30,31 @@
   ],
   "scripts": {
     "lint": "eslint --fix src",
-    "dev": "ncc build src/index.ts -w -o dist && cp -R src/templates dist/templates",
-    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register && cp -R src/templates dist/templates"
+    "dev": "ncc build src/index.ts -w -o dist",
+    "build": "ncc build src/index.ts -o dist --minify --no-cache --no-source-map-register"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "comment-json": "^4.2.3",
+    "execa": "^6.1.0",
+    "giget": "^0.1.7",
+    "kleur": "^4.1.4",
+    "ora": "^6.1.0",
+    "prompts": "^2.4.2",
+    "strip-ansi": "^7.0.1",
+    "which-pm-runs": "^1.1.0",
+    "yargs-parser": "^21.0.1",
+    "log-update": "^5.0.1",
+    "sisteransi": "^1.0.5"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.34.0",
     "@types/node": "^18.11.9",
     "tsconfig": "workspace:*",
     "eslint-config-custom": "workspace:*",
-    "cpy": "^7.3.0",
-    "chalk": "^5.1.2",
-    "cross-spawn": "^7.0.3",
-    "@types/cross-spawn": "^6.0.2",
-    "rimraf": "^3.0.2",
-    "@types/rimraf": "^3.0.2",
-    "validate-npm-package-name": "^5.0.0",
-    "@types/validate-npm-package-name": "^4.0.0",
-    "commander": "^9.4.1",
-    "prompts": "^2.4.2",
-    "update-check": "^1.5.4",
-    "@types/prompts": "^2.4.1",
-    "typescript": "^4.8.4"
+    "@types/prompts": "^2.0.14",
+    "@types/which-pm-runs": "^1.0.0",
+    "@types/yargs-parser": "^21.0.0",
+    "tsconfig-paths": "^4.1.0"
   }
 }

@@ -1,12 +1,15 @@
 import { createApp } from '@zephyr-js/core';
+import deps from '@/lib/deps';
 
-const bootstrap = async () => {
-  const app = await createApp();
-  const port = process.env.PORT || 3000;
-  app.listen(port, () =>
-    console.info('Zephyr application is running on port', port),
-  );
-};
+/**
+ * Bootstrap Zephyr application
+ */
+async function bootstrap(): Promise<void> {
+  const dependencies = await deps.init();
+  const app = await createApp({ dependencies });
+  const { config } = dependencies;
+  app.listen(config.port);
+}
 
 bootstrap().catch((err) => {
   console.error(err);
