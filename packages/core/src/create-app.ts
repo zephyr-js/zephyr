@@ -7,7 +7,6 @@ import {
   Application,
   ApplicationRequestHandler,
 } from 'express-serve-static-core';
-import { hostname } from 'os';
 
 export interface ZephyrApplication extends Omit<Application, 'listen'> {
   listen(port?: number): Promise<void>;
@@ -46,7 +45,7 @@ export async function createApp<TDependencies extends object = object>({
         .listen(port, () => {
           console.info(
             'Zephyr application is ready on',
-            `${hostname()}:${port}`,
+            `http://localhost:${port}`,
           );
           resolve();
         })
