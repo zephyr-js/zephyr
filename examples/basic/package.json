@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@zephyr-js/common": "^0.2.1",
-    "@zephyr-js/core": "^0.2.3",
+    "@zephyr-js/core": "^0.3.0",
     "@zephyr-js/di": "^0.2.1",
     "@zephyr-js/config": "^0.2.0",
     "zod": "3.19.1"
