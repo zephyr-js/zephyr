@@ -3,16 +3,16 @@ import type { Ora } from 'ora';
 import ora from 'ora';
 
 const gradientColors = [
-  '#ff5e00',
-  '#ff4c29',
-  '#ff383f',
-  '#ff2453',
-  '#ff0565',
-  '#ff007b',
-  '#f5008b',
-  '#e6149c',
-  '#d629ae',
-  '#c238bd',
+  '#8693AB',
+  '#7D97B0',
+  '#7799B3',
+  '#6F9CB8',
+  '#679FBC',
+  '#5DA3C1',
+  '#56A6C5',
+  '#4EA8C8',
+  '#48AACA',
+  '#3EADCF',
 ];
 
 export const rocketAscii = '■■▶';

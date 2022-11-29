@@ -1,5 +1,5 @@
-import { color, generateProjectName, label, say } from '@/lib/cli-kit';
-import { forceUnicode, random } from '@/lib/cli-kit/utils';
+import { color, generateProjectName } from '@/lib/cli-kit';
+import { forceUnicode } from '@/lib/cli-kit/utils';
 import { execa, execaCommand } from 'execa';
 import fs from 'fs';
 import { downloadTemplate } from 'giget';
@@ -11,14 +11,7 @@ import detectPackageManager from 'which-pm-runs';
 import yargs from 'yargs-parser';
 import { loadWithRocketGradient, rocketAscii } from './gradient';
 import { logger } from './logger';
-import {
-  banner,
-  getName,
-  getVersion,
-  info,
-  nextSteps,
-  welcome,
-} from './messages';
+import { info, nextSteps } from './messages';
 
 // NOTE: In the v7.x version of npm, the default behavior of `npm init` was changed
 // to no longer require `--` to pass args and instead pass `--` directly to us. This
@@ -92,25 +85,8 @@ const FILES_TO_REMOVE = [
 
 async function main() {
   const pkgManager = detectPackageManager()?.name || 'npm';
-  const [username, version] = await Promise.all([getName(), getVersion()]);
 
   logger.debug('Verbose logging turned on');
-  if (!args.skipHouston) {
-    await say(
-      [
-        [
-          'Welcome',
-          'to',
-          label('zephyr', color.bgGreen, color.black),
-          color.green(`v${version}`) + ',',
-          `${username}!`,
-        ],
-        random(welcome),
-      ],
-      { hat: args.fancy ? '🎩' : undefined },
-    );
-    await banner(version);
-  }
 
   let cwd = args['_'][2] as string;
 
@@ -309,10 +285,6 @@ async function main() {
   const projectDir = path.relative(process.cwd(), cwd);
   const devCmd = pkgManager === 'npm' ? 'npm run dev' : `${pkgManager} dev`;
   await nextSteps({ projectDir, devCmd });
-
-  if (!args.skipHouston) {
-    await say(['Good luck out there!']);
-  }
 }
 
 function emojiWithFallback(char: string, fallback: string) {
