@@ -1,11 +1,12 @@
 import fs from 'fs';
 import { AnyZodObject } from 'zod';
 import yaml from 'yaml';
+import dotenv from 'dotenv';
+import * as eta from 'eta';
 
 export interface LoadOptions {
   path?: string | null;
   variables?: object;
-  dotenv?: boolean;
   schema?: AnyZodObject;
 }
 
@@ -13,7 +14,7 @@ export function getConfigFilePath(
   env: string = process.env.NODE_ENV || 'development',
 ): string | null {
   const file = `${process.cwd()}/config/${env}`;
-  const extensions = ['.yml', '.yaml', '.json'];
+  const extensions = ['.yml', '.yaml'];
 
   for (const extension of extensions) {
     if (fs.existsSync(file + extension)) {
@@ -28,12 +29,8 @@ export function getEnvFilePath(): string {
   return `${process.cwd()}/.env`;
 }
 
-export function parseVariables(content: string, variables: object): string {
-  return Object.keys(variables).reduce((acc: string, curr) => {
-    const re = new RegExp('{{(?:\\s+)?(' + curr + ')(?:\\s+)?}}', 'g');
-    const value = variables[curr as keyof typeof variables];
-    return acc.replace(re, value);
-  }, content);
+export function parseVariables(template: string, variables: object): string {
+  return eta.render(template, variables, { autoTrim: false }) as string;
 }
 
 export function validateConfig(schema: AnyZodObject, config: unknown): void {
@@ -50,28 +47,18 @@ export function validateConfig(schema: AnyZodObject, config: unknown): void {
 export function load<T extends object>({
   path = getConfigFilePath(),
   variables = {},
-  dotenv = true,
   schema,
 }: LoadOptions = {}): T {
   if (path === null || !fs.existsSync(path)) {
     throw new Error(`Config file not found at path: '${path}'`);
   }
 
-  if (dotenv) {
-    require('dotenv').config({
-      path: getEnvFilePath(),
-    });
-    variables = {
-      ...process.env,
-      ...variables,
-    };
-  }
+  dotenv.config();
 
-  const content = parseVariables(fs.readFileSync(path, 'utf-8'), variables);
+  const template = fs.readFileSync(path, 'utf-8');
+  const content = parseVariables(template, variables);
 
-  const config = path.endsWith('.json')
-    ? JSON.parse(content)
-    : yaml.parse(content);
+  const config = yaml.parse(content);
 
   if (schema) {
     validateConfig(schema, config);
