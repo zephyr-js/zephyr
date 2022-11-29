@@ -1,15 +1,12 @@
-import { container } from '@zephyr-js/di';
 import supertest from 'supertest';
 import { expect, test, vi } from 'vitest';
 import { createApp } from './create-app';
 import * as routesLoader from './utils/routes-loader';
 import { Calculator } from './__mocks__/app/services/calculator';
+import * as routes from './__mocks__/app/routes/sum';
+import { json } from 'express';
 
 test('should able to inject dependencies on route handler', async () => {
-  container.provide(Calculator, new Calculator());
-
-  const routes = await import('./__mocks__/app/routes/sum');
-
   const dependencies = {
     calculator: new Calculator(),
   };
@@ -23,7 +20,9 @@ test('should able to inject dependencies on route handler', async () => {
     },
   ]);
 
-  const app = await createApp();
+  const app = await createApp({
+    middlewares: [json()],
+  });
 
   const response = await supertest(app)
     .post('/sum')

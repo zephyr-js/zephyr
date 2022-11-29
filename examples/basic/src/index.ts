@@ -1,4 +1,4 @@
-import { createApp } from '@zephyr-js/core';
+import { createApp, cors, json } from '@zephyr-js/core';
 import deps from '@/lib/deps';
 
 /**
@@ -6,9 +6,15 @@ import deps from '@/lib/deps';
  */
 async function bootstrap(): Promise<void> {
   const dependencies = await deps.init();
-  const app = await createApp({ dependencies });
+
+  const app = await createApp({
+    dependencies,
+    middlewares: [cors(), json()],
+  });
+
   const { config } = dependencies;
-  app.listen(config.port);
+
+  await app.listen(config.port);
 }
 
 bootstrap().catch((err) => {
