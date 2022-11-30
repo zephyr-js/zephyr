@@ -36,6 +36,51 @@ The established server-side web frameworks for Node.js at the moment are [Nest.j
 
 Kindly visit our documentation on [zephyrjs.com](https://zephyrjs.com/)
 
+## Overview
+
+**Bootstrapping Project**
+
+```bash
+npm create zephyr-app <app-name>
+yarn create zephyr-app <app-name>
+pnpm create zephyr-app <app-name>
+```
+
+**Defining API Route**
+
+```ts
+// src/routes/login.ts
+
+import { defineRoute } from '@zephyr-js/core';
+
+// POST /login
+export function POST() {
+  return defineRoute({
+    schema: z.object({
+      body: z.object({
+        email: z.string(),
+        password: z.string(),
+      }),
+      response: z.object({
+        success: z.boolean(),
+      }),
+    }),
+    onRequest(req) {
+      logger.info('Request received', req.method, req.path);
+    },
+    async handler({ body }) {
+      await login(body);
+      return { success: true };
+    },
+    onErrorCaptured(req, res, err) {
+      logger.error('Login failed', err);
+      res.status(500);
+      return { success: false };
+    },
+  });
+}
+```
+
 ## TODO
 
 - [x] Complete `create-zephyr-app`
