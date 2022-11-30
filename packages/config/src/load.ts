@@ -3,6 +3,7 @@ import { AnyZodObject } from 'zod';
 import yaml from 'yaml';
 import dotenv from 'dotenv';
 import * as eta from 'eta';
+import path from 'path';
 
 export interface LoadOptions {
   path?: string | null;
@@ -13,7 +14,7 @@ export interface LoadOptions {
 export function getConfigFilePath(
   env: string = process.env.NODE_ENV || 'development',
 ): string | null {
-  const file = `${process.cwd()}/config/${env}`;
+  const file = path.join(process.cwd(), 'config', env);
   const extensions = ['.yml', '.yaml'];
 
   for (const extension of extensions) {
@@ -26,7 +27,7 @@ export function getConfigFilePath(
 }
 
 export function getEnvFilePath(): string {
-  return `${process.cwd()}/.env`;
+  return path.join(process.cwd(), '.env');
 }
 
 export function parseVariables(template: string, variables: object): string {

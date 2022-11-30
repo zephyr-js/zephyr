@@ -2,17 +2,18 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, other/github-workflow-windows ]
   pull_request:
     branches: [ main ]
 
 jobs:
   build:
     name: Build and Test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [ 16.x, 18.x ]
+        os: [ ubuntu-latest, windows-latest ]
 
     steps:
       - name: Checkout code

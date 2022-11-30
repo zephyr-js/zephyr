@@ -26,7 +26,7 @@ describe('loadRoutes()', () => {
   test('should load routes from __mocks__/app/routes directory', async () => {
     const dir = path.join(__dirname, '..', '__mocks__', 'app', 'routes');
     const routes = await loadRoutes({ dir });
-    expect(routes).toHaveLength(4);
+    expect(routes).toHaveLength(5);
 
     expect(
       routes.some((route) => {
@@ -49,6 +49,12 @@ describe('loadRoutes()', () => {
     expect(
       routes.some((route) => {
         return route.method === 'POST' && route.path === '/sum';
+      }),
+    ).to.be.true;
+
+    expect(
+      routes.some((route) => {
+        return route.method === 'GET' && route.path === '/items/:itemId';
       }),
     ).to.be.true;
   });
