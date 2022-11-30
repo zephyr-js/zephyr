@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, other/github-workflow-windows ]
   pull_request:
     branches: [ main ]
 
