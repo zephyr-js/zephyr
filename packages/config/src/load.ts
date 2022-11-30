@@ -27,7 +27,7 @@ export function getConfigFilePath(
 }
 
 export function getEnvFilePath(): string {
-  return `${process.cwd()}/.env`;
+  return path.join(process.cwd(), '.env');
 }
 
 export function parseVariables(template: string, variables: object): string {
