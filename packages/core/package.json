@@ -1,6 +1,6 @@
 {
   "name": "@zephyr-js/core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Zephyr - Zephyr - An Express TS meta framework designed with DX in mind (@core)",
   "author": {
     "name": "KaKeng Loh",
