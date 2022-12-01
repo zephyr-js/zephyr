@@ -37,6 +37,7 @@ describe('loadRoutes()', () => {
       { method: 'POST', path: '/v1/todos' },
       { method: 'GET', path: '/v1/:id' },
       { method: 'GET', path: '/' },
+      { method: 'GET', path: '/items/:itemId' },
     ];
 
     expect(routes).toHaveLength(routeAssertions.length);

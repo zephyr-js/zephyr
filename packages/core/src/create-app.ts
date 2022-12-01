@@ -1,17 +1,23 @@
 import express, { RequestHandler } from 'express';
+import { CorsOptions, CorsOptionsDelegate } from 'cors';
+import { OptionsJson } from 'body-parser';
 import { loadRoutes } from './utils/routes-loader';
+import { createRouter } from './create-router';
 import {
-  createErrorMiddleware,
-  createHandlerMiddleware,
-  createValidationMiddleware,
-} from './utils/middlewares';
+  Application,
+  ApplicationRequestHandler,
+} from 'express-serve-static-core';
 
-type ExpressApplication = ReturnType<typeof express>;
-
-export type ZephyrApplication = ExpressApplication;
+export interface ZephyrApplication extends Omit<Application, 'listen'> {
+  listen(port?: number): Promise<void>;
+  use: ApplicationRequestHandler<Application>;
+}
 
 export interface CreateAppOptions<TDependencies = object> {
+  cors?: boolean | CorsOptions | CorsOptionsDelegate;
+  json?: boolean | OptionsJson;
   dependencies?: TDependencies;
+  middlewares?: RequestHandler[];
 }
 
 /**
@@ -19,52 +25,42 @@ export interface CreateAppOptions<TDependencies = object> {
  */
 export async function createApp<TDependencies extends object = object>({
   dependencies = Object.create(null),
+  middlewares = [],
 }: CreateAppOptions<TDependencies> = {}): Promise<ZephyrApplication> {
   const app = express();
 
-  app.use(express.json());
+  if (middlewares.length) {
+    app.use(...middlewares);
+  }
 
   const routes = await loadRoutes({ dependencies });
 
-  for (const route of routes) {
-    const {
-      path,
-      handler,
-      schema,
-      onRequest,
-      onBeforeValidate,
-      onBeforeHandle,
-      onErrorCaptured,
-      onResponse,
-    } = route;
-    const method = route.method.toLowerCase() as keyof ExpressApplication;
+  const router = createRouter(routes);
 
-    const middlewares: RequestHandler[] = [];
+  app.use(router);
 
-    if (onRequest) {
-      middlewares.push(createHandlerMiddleware(onRequest));
-    }
-
-    if (schema) {
-      if (onBeforeValidate) {
-        middlewares.push(createHandlerMiddleware(onBeforeValidate));
-      }
-      middlewares.push(createValidationMiddleware(schema));
-    }
-
-    if (onBeforeHandle) {
-      middlewares.push(createHandlerMiddleware(onBeforeHandle));
-    }
-    middlewares.push(createHandlerMiddleware(handler, onErrorCaptured));
-
-    if (onResponse) {
-      middlewares.push(createHandlerMiddleware(onResponse));
-    }
-
-    app[method](path, ...middlewares);
+  function listen(port?: number) {
+    return new Promise<void>((resolve, reject) => {
+      app
+        .listen(port, () => {
+          console.info(
+            'Zephyr application is ready on',
+            `http://localhost:${port}`,
+          );
+          resolve();
+        })
+        .on('error', (err) => reject(err));
+    });
   }
 
-  app.use(createErrorMiddleware());
+  const proxy = new Proxy(app as unknown as ZephyrApplication, {
+    get(target, prop) {
+      if (prop === 'listen') {
+        return listen;
+      }
+      return Reflect.get(target, prop);
+    },
+  });
 
-  return app;
+  return proxy;
 }

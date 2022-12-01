@@ -1,30 +1,24 @@
 import { ZephyrRoute, ROUTE_METHODS } from '@zephyr-js/common';
 import glob from 'glob';
-import { normalize, relative, extname, join } from 'path';
+import { normalize, win32, join, parse, posix } from 'path';
 import { DefineRouteOptions } from '../define-route';
 
 export function extractPath(file: string, dir: string) {
-  // Convert Windows to Unix path
-  file = file.replace(new RegExp('\\\\', 'g'), '/');
-  dir = dir.replace(new RegExp('\\\\', 'g'), '/');
+  let path = file.replace(dir, '');
 
-  // Get relative file path
-  let path = relative(dir, file);
+  // Convert Windows path to Unix path
+  path = path.replaceAll(win32.sep, posix.sep);
+
+  const parsed = parse(path);
 
   // Handle index path
-  path = path.replace(new RegExp('index.ts' + '$'), '');
+  path = parsed.dir;
+  if (parsed.name !== 'index') {
+    path += (parsed.dir === '/' ? '' : '/') + parsed.name;
+  }
 
-  // Remove file extension
-  path = path.replace(new RegExp(extname(path) + '$'), '');
-
-  // Convert [params] to :params
+  // Handle dynamic path
   path = path.replaceAll('[', ':').replaceAll(']', '');
-
-  // Remove trailing slashes
-  path = path.replace(/\/+$/, '');
-
-  // Add leading slash
-  path = '/' + path;
 
   return path;
 }

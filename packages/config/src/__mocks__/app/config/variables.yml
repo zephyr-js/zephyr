@@ -1,0 +1,3 @@
+aws:
+  accessKeyId: "<%= it.AWS_ACCESS_KEY_ID %>"
+  secretAccessKey: "<%= it.AWS_SECRET_ACCESS_KEY %>"

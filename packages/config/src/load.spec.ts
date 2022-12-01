@@ -8,6 +8,7 @@ import {
   vi,
 } from 'vitest';
 import path from 'path';
+import fs from 'fs';
 import {
   getConfigFilePath,
   getEnvFilePath,
@@ -19,9 +20,12 @@ import { z } from 'zod';
 
 describe('parseVariables()', () => {
   test('should return parsed content', () => {
-    const content = parseVariables('Hello {{ message }} {{ message }}', {
-      message: 'world',
-    });
+    const content = parseVariables(
+      'Hello <%= it.message %> <%= it.message %>',
+      {
+        message: 'world',
+      },
+    );
     expect(content).toEqual('Hello world world');
   });
 });
@@ -73,20 +77,14 @@ describe('load()', () => {
 
   test('should load config from file', () => {
     const config = load({
-      path: path.join(__dirname, '__mocks__', 'app', 'config', 'basic.json'),
+      path: path.join(__dirname, '__mocks__', 'app', 'config', 'basic.yml'),
     });
     expect(config).to.deep.equals({ port: 3000 });
   });
 
   test('should load config from file and parse specific variables', () => {
     const config = load({
-      path: path.join(
-        __dirname,
-        '__mocks__',
-        'app',
-        'config',
-        'variables.json',
-      ),
+      path: path.join(__dirname, '__mocks__', 'app', 'config', 'variables.yml'),
       variables: {
         AWS_ACCESS_KEY_ID: '123',
         AWS_SECRET_ACCESS_KEY: '456',
@@ -105,7 +103,7 @@ describe('load()', () => {
     process.env.DB_PASS = 'db-pass';
 
     const config = load({
-      path: path.join(__dirname, '__mocks__', 'app', 'config', 'env.json'),
+      path: path.join(__dirname, '__mocks__', 'app', 'config', 'env.yml'),
     });
 
     expect(config).to.deep.equals({
@@ -124,14 +122,16 @@ describe('load()', () => {
 
   test('should load config from file and parse variables from .env file', () => {
     const config = load({
-      path: path.join(__dirname, '__mocks__', 'app', 'config', 'dotenv.json'),
-      dotenv: true,
+      path: path.join(__dirname, '__mocks__', 'app', 'config', 'env.yml'),
     });
 
     expect(config).to.deep.equals({
-      aws: {
-        accessKeyId: '123',
-        secretAccessKey: '456',
+      jwt: {
+        secret: '123',
+      },
+      database: {
+        username: 'root',
+        password: '456',
       },
     });
   });
@@ -142,15 +142,13 @@ describe('load()', () => {
     );
   });
 
+  test('should throw error when config file not exists (default)', () => {
+    expect(() => load()).toThrow('Config file not found at path: \'null\'');
+  });
+
   test('should load config from file and validate it', () => {
     const config = load({
-      path: path.join(
-        __dirname,
-        '__mocks__',
-        'app',
-        'config',
-        'variables.json',
-      ),
+      path: path.join(__dirname, '__mocks__', 'app', 'config', 'variables.yml'),
       variables: {
         AWS_ACCESS_KEY_ID: '123',
         AWS_SECRET_ACCESS_KEY: '456',
@@ -173,20 +171,28 @@ describe('load()', () => {
 
 describe('getConfigFilePath()', () => {
   test('should return correct config file path with current environment (test)', () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
+
     expect(getConfigFilePath()).toEqual(
-      path.join(__dirname, '..', 'config', 'test.json'),
+      path.join(__dirname, '..', 'config', 'test.yml'),
     );
   });
 
-  test('should return correct config file path with default environment (development)', () => {
+  test('should return null', () => {
     process.env.NODE_ENV = undefined;
+    expect(getConfigFilePath()).toBeNull();
+  });
+
+  test('should return correct config file path', () => {
+    vi.spyOn(fs, 'existsSync').mockReturnValueOnce(true);
+
     expect(getConfigFilePath()).toEqual(
-      path.join(__dirname, '..', 'config', 'development.json'),
+      path.join(__dirname, '..', 'config', 'development.yml'),
     );
   });
 });
 
-describe('getConfigFilePath()', () => {
+describe('getEnvFilePath()', () => {
   test('should return correct .env file path', () => {
     vi.spyOn(process, 'cwd').mockReturnValue(
       path.join(__dirname, '__mocks__', 'app'),
